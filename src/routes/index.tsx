@@ -687,3 +687,193 @@ function Footer() {
     </footer>
   );
 }
+
+type Airline = {
+  name: string;
+  code: string;
+  primary: string;
+  accent: string;
+};
+
+function OrbitPlane({ airline }: { airline: Airline }) {
+  return (
+    <div className="preserve-3d" style={{ filter: "drop-shadow(0 12px 10px oklch(0.24 0.015 250 / 0.28))" }}>
+      <svg viewBox="0 0 160 160" width="150" height="150" style={{ overflow: "visible" }}>
+        <defs>
+          <linearGradient id={`body-${airline.code}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="oklch(0.99 0.005 85)" />
+            <stop offset="55%" stopColor="oklch(0.94 0.008 85)" />
+            <stop offset="100%" stopColor={airline.primary} />
+          </linearGradient>
+          <linearGradient id={`wing-${airline.code}`} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor={airline.accent} />
+            <stop offset="100%" stopColor={airline.primary} />
+          </linearGradient>
+          <radialGradient id={`eng-${airline.code}`} cx="0.3" cy="0.3">
+            <stop offset="0%" stopColor="oklch(0.98 0.005 85)" />
+            <stop offset="100%" stopColor="oklch(0.25 0.02 250)" />
+          </radialGradient>
+        </defs>
+        {/* Nose points up (-Y) so orbit rotation makes plane tangent */}
+        {/* Wings */}
+        <path
+          d="M80 74 L28 108 L28 122 L80 110 L132 122 L132 108 Z"
+          fill={`url(#wing-${airline.code})`}
+          stroke="oklch(0.24 0.015 250 / 0.25)"
+          strokeWidth="0.6"
+        />
+        {/* Tail wings */}
+        <path
+          d="M80 124 L56 146 L56 152 L80 146 L104 152 L104 146 Z"
+          fill={`url(#wing-${airline.code})`}
+          opacity="0.85"
+        />
+        {/* Fuselage */}
+        <path
+          d="M80 22 Q 92 44 92 90 L92 138 Q 88 148 80 150 Q 72 148 68 138 L68 90 Q 68 44 80 22 Z"
+          fill={`url(#body-${airline.code})`}
+          stroke="oklch(0.24 0.015 250 / 0.25)"
+          strokeWidth="0.8"
+        />
+        {/* Cockpit */}
+        <path d="M80 24 Q 88 40 88 52 L72 52 Q 72 40 80 24 Z" fill="oklch(0.32 0.03 250)" opacity="0.85" />
+        {/* Windows row */}
+        {Array.from({ length: 7 }).map((_, i) => (
+          <circle key={i} cx={80} cy={62 + i * 10} r={1.6} fill={airline.primary} opacity="0.8" />
+        ))}
+        {/* Engines */}
+        <ellipse cx="52" cy="110" rx="6" ry="10" fill={`url(#eng-${airline.code})`} />
+        <ellipse cx="108" cy="110" rx="6" ry="10" fill={`url(#eng-${airline.code})`} />
+        {/* Livery stripe */}
+        <path d="M70 92 L90 92 L90 130 L70 130 Z" fill={airline.accent} opacity="0.35" />
+        {/* Airline code */}
+        <text
+          x="80"
+          y="108"
+          textAnchor="middle"
+          fontFamily="JetBrains Mono, monospace"
+          fontSize="9"
+          fontWeight="700"
+          fill="oklch(0.24 0.015 250)"
+        >
+          {airline.code}
+        </text>
+        {/* Highlight */}
+        <path d="M80 24 Q 74 60 74 100 L74 138 Q 76 148 80 150 Z" fill="oklch(1 0 0 / 0.35)" />
+      </svg>
+      <div
+        className="mx-auto -mt-4 w-max rounded-full bg-white/70 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-foreground shadow-3d"
+        style={{ transform: "translateZ(20px)" }}
+      >
+        {airline.name}
+      </div>
+    </div>
+  );
+}
+
+function Cloud({ style, scale = 1 }: { style?: React.CSSProperties; scale?: number }) {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute left-0 animate-cloud"
+      style={{ ...style, transform: `scale(${scale})` }}
+    >
+      <div
+        className="preserve-3d"
+        style={{ transform: "rotateX(60deg) rotateZ(-8deg)", filter: "blur(2px)" }}
+      >
+        <svg width="220" height="90" viewBox="0 0 220 90">
+          <defs>
+            <radialGradient id="cg" cx="0.4" cy="0.35">
+              <stop offset="0%" stopColor="oklch(1 0 0 / 0.95)" />
+              <stop offset="100%" stopColor="oklch(0.9 0.01 250 / 0.15)" />
+            </radialGradient>
+          </defs>
+          <ellipse cx="60" cy="55" rx="55" ry="28" fill="url(#cg)" />
+          <ellipse cx="120" cy="45" rx="60" ry="32" fill="url(#cg)" />
+          <ellipse cx="170" cy="60" rx="45" ry="24" fill="url(#cg)" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+function Compass() {
+  return (
+    <div
+      className="glass grid place-items-center rounded-full p-3 shadow-3d preserve-3d"
+      style={{ width: 88, height: 88 }}
+    >
+      <div className="relative h-full w-full">
+        <div className="absolute inset-0 rounded-full border border-foreground/15" />
+        <div className="absolute inset-2 rounded-full border border-foreground/10" />
+        <div className="absolute inset-0 grid place-items-center font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+          <span className="absolute top-0.5">N</span>
+          <span className="absolute bottom-0.5">S</span>
+          <span className="absolute left-1">O</span>
+          <span className="absolute right-1">E</span>
+        </div>
+        <div className="absolute inset-0 animate-spin-slow">
+          <div
+            className="absolute left-1/2 top-0 h-1/2 w-1 -translate-x-1/2 origin-bottom rounded-full"
+            style={{ background: "linear-gradient(180deg, oklch(0.55 0.18 30), oklch(0.24 0.015 250))" }}
+          />
+        </div>
+        <div className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground" />
+      </div>
+    </div>
+  );
+}
+
+function BoardingTicket() {
+  return (
+    <div
+      className="preserve-3d rounded-2xl"
+      style={{
+        transform: "rotateX(12deg) rotateY(-16deg)",
+        filter: "drop-shadow(0 24px 30px oklch(0.24 0.015 250 / 0.25))",
+      }}
+    >
+      <div
+        className="flex overflow-hidden rounded-2xl border border-white/70"
+        style={{ background: "linear-gradient(145deg, oklch(0.99 0.005 85), oklch(0.92 0.01 250))" }}
+      >
+        <div className="p-4">
+          <div className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">Boarding pass</div>
+          <div className="mt-1 flex items-baseline gap-2">
+            <span className="font-display text-2xl font-extrabold">MEX</span>
+            <span className="text-muted-foreground">→</span>
+            <span className="font-display text-2xl font-extrabold">CUN</span>
+          </div>
+          <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            VD 2210 · 07:45 · GATE B12
+          </div>
+        </div>
+        <div className="grid w-14 place-items-center border-l border-dashed border-foreground/20 bg-white/40">
+          <div className="rotate-90 font-mono text-[9px] tracking-[0.3em] text-muted-foreground">VUELOSDK</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LuggageTag() {
+  return (
+    <div
+      className="preserve-3d"
+      style={{
+        transform: "rotateX(8deg) rotateY(14deg)",
+        filter: "drop-shadow(0 20px 24px oklch(0.24 0.015 250 / 0.28))",
+      }}
+    >
+      <div className="relative h-24 w-16 rounded-xl border border-white/70" style={{ background: "linear-gradient(145deg, oklch(0.72 0.045 165), oklch(0.55 0.04 250))" }}>
+        <div className="absolute left-1/2 top-1 h-2 w-2 -translate-x-1/2 rounded-full bg-foreground/40" />
+        <div className="mt-5 px-2 text-center text-primary-foreground">
+          <div className="font-mono text-[8px] uppercase tracking-widest opacity-80">Tag</div>
+          <div className="font-display text-lg font-extrabold leading-none">DK</div>
+          <div className="mt-2 font-mono text-[8px] tracking-widest opacity-80">23KG</div>
+        </div>
+      </div>
+    </div>
+  );
+}
