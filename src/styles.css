@@ -97,7 +97,8 @@
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
 
-  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
@@ -182,8 +183,9 @@
 
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.035em;
   }
+  .font-serif { font-family: var(--font-serif); font-style: italic; letter-spacing: -0.01em; }
 
   .font-mono {
     font-family: var(--font-mono);
@@ -272,4 +274,33 @@
   .animate-rise { animation: rise 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
   .animate-tilt-hover { animation: tilt-hover 8s ease-in-out infinite; }
   .animate-floor { animation: floor-scroll 12s linear infinite; }
+
+  @keyframes plane-hover {
+    0%, 100% { transform: rotateX(12deg) rotateY(-18deg) rotateZ(-6deg) translateY(0); }
+    50% { transform: rotateX(14deg) rotateY(-14deg) rotateZ(-4deg) translateY(-18px); }
+  }
+  .animate-plane-hover { animation: plane-hover 8s ease-in-out infinite; }
+
+  @keyframes contrail {
+    0% { opacity: 0; transform: scaleX(0.2); }
+    40% { opacity: 1; }
+    100% { opacity: 0; transform: scaleX(1.4); }
+  }
+  .animate-contrail { animation: contrail 4s ease-out infinite; transform-origin: right center; }
+
+  @keyframes orbit-badge {
+    from { transform: rotate(0deg) translateX(var(--r, 340px)) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(var(--r, 340px)) rotate(-360deg); }
+  }
+  .animate-orbit { animation: orbit-badge var(--dur, 30s) linear infinite; }
+
+  .text-3d {
+    text-shadow:
+      1px 1px 0 oklch(0.24 0.015 250 / 0.08),
+      2px 2px 0 oklch(0.24 0.015 250 / 0.07),
+      3px 3px 0 oklch(0.24 0.015 250 / 0.06),
+      4px 4px 0 oklch(0.24 0.015 250 / 0.05),
+      5px 5px 0 oklch(0.24 0.015 250 / 0.04),
+      8px 14px 30px oklch(0.24 0.015 250 / 0.2);
+  }
 }
