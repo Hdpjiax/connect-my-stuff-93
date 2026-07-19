@@ -13,26 +13,33 @@ const ROUTES = [
 
 function Index() {
   return (
-    <main className="relative min-h-screen scene-3d">
-      {/* Twinkling stars overlay */}
-      <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
-        {Array.from({ length: 40 }).map((_, i) => (
-          <span
-            key={i}
-            className="absolute block h-[2px] w-[2px] rounded-full bg-foreground animate-twinkle"
-            style={{
-              top: `${(i * 53) % 100}%`,
-              left: `${(i * 37) % 100}%`,
-              animationDelay: `${(i % 7) * 0.4}s`,
-              opacity: 0.6,
-            }}
-          />
-        ))}
-      </div>
+    <main className="relative min-h-screen scene-3d overflow-hidden">
+      {/* 3D floor grid receding into horizon */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 bottom-0 z-0 h-[70vh] origin-top grid-floor animate-floor"
+        style={{
+          transform: "perspective(900px) rotateX(62deg)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%)",
+        }}
+      />
+      {/* Subtle floating orbs */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed left-[8%] top-[18%] z-0 h-72 w-72 rounded-full blur-3xl"
+        style={{ background: "oklch(0.85 0.03 165 / 0.5)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none fixed right-[6%] top-[35%] z-0 h-96 w-96 rounded-full blur-3xl"
+        style={{ background: "oklch(0.88 0.02 250 / 0.45)" }}
+      />
 
       <Nav />
       <Hero />
       <RouteDeck />
+      <Experience3D />
       <Footer />
     </main>
   );
@@ -41,21 +48,33 @@ function Index() {
 function Nav() {
   return (
     <header className="relative z-30 mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-      <a href="/" className="flex items-center gap-2 font-display text-xl font-bold tracking-tight">
-        <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-primary to-accent shadow-glow">
-          <svg viewBox="0 0 24 24" className="h-5 w-5 text-primary-foreground" fill="currentColor">
+      <a
+        href="/"
+        className="flex items-center gap-3 font-display text-xl font-bold tracking-tight"
+        style={{ transform: "translateZ(20px)" }}
+      >
+        <span
+          className="grid h-10 w-10 place-items-center rounded-2xl shadow-3d"
+          style={{
+            background:
+              "linear-gradient(145deg, oklch(0.98 0.006 85), oklch(0.86 0.02 165))",
+            transform: "perspective(400px) rotateX(20deg) rotateY(-20deg)",
+            transformStyle: "preserve-3d",
+          }}
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 text-foreground" fill="currentColor">
             <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" />
           </svg>
         </span>
-        Vuelos<span className="text-gradient">Pro</span>
+        Vuelos<span className="text-gradient">Dk</span>
       </a>
       <nav className="hidden gap-8 text-sm text-muted-foreground md:flex">
         <a href="#" className="hover:text-foreground transition">Rutas</a>
         <a href="#" className="hover:text-foreground transition">Ofertas</a>
-        <a href="#" className="hover:text-foreground transition">Experiencia</a>
+        <a href="#" className="hover:text-foreground transition">Experiencia 3D</a>
         <a href="#" className="hover:text-foreground transition">Ayuda</a>
       </nav>
-      <button className="glass rounded-full px-5 py-2 text-sm font-medium transition hover:bg-white/10">
+      <button className="glass rounded-full px-5 py-2 text-sm font-medium transition hover:-translate-y-0.5">
         Iniciar sesión
       </button>
     </header>
@@ -66,19 +85,26 @@ function Hero() {
   return (
     <section className="relative z-10 mx-auto grid max-w-7xl gap-12 px-6 pt-8 pb-24 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:pt-16">
       <div className="animate-rise">
-        <span className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-white/5 px-3 py-1 text-xs uppercase tracking-widest text-muted-foreground">
+        <span className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-white/50 px-3 py-1 text-xs uppercase tracking-widest text-muted-foreground shadow-3d">
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-twinkle" />
-          Motor de vuelos · v3.0
+          Motor 3D · v3.0
         </span>
-        <h1 className="mt-6 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl xl:text-8xl">
-          Vuela en
+        <h1
+          className="mt-6 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl xl:text-[7.5rem] preserve-3d"
+          style={{
+            transform: "perspective(1200px) rotateX(6deg) rotateY(-4deg)",
+            textShadow:
+              "0 2px 0 oklch(0.24 0.015 250 / 0.06), 0 12px 30px oklch(0.24 0.015 250 / 0.12)",
+          }}
+        >
+          Vuela
           <br />
-          <span className="text-gradient">otra dimensión</span>
+          <span className="text-gradient">en 3D.</span>
         </h1>
         <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-          Explora el planeta como nunca antes. Rutas en tiempo real, tarifas
-          transparentes y una experiencia inmersiva 3D que te lleva a bordo
-          antes de reservar.
+          VuelosDk es un universo tridimensional donde cada ruta, tarifa y
+          horario cobra volumen. Explora el planeta con paletas suaves y
+          profundidad real antes de reservar.
         </p>
 
         <SearchPanel />
@@ -109,14 +135,17 @@ function Stat({ value, label }: { value: string; label: string }) {
 function SearchPanel() {
   return (
     <div
-      className="glass mt-10 rounded-3xl p-2 shadow-glow"
-      style={{ transform: "perspective(1400px) rotateX(6deg)", transformStyle: "preserve-3d" }}
+      className="glass mt-10 rounded-3xl p-2 preserve-3d animate-tilt-hover"
+      style={{ transformOrigin: "center top" }}
     >
-      <div className="grid gap-2 rounded-2xl bg-black/20 p-4 md:grid-cols-[1fr_1fr_1fr_auto] md:items-end">
+      <div className="grid gap-2 rounded-2xl bg-white/40 p-4 md:grid-cols-[1fr_1fr_1fr_auto] md:items-end">
         <Field label="Desde" value="Madrid · MAD" />
         <Field label="Hacia" value="Tokio · NRT" />
         <Field label="Fecha" value="14 Ago 2026" />
-        <button className="mt-2 h-12 rounded-xl bg-gradient-to-r from-primary to-accent px-6 font-semibold text-primary-foreground shadow-glow transition hover:brightness-110 md:mt-0">
+        <button
+          className="mt-2 h-12 rounded-xl px-6 font-semibold text-primary-foreground shadow-3d transition hover:-translate-y-1 hover:brightness-105 md:mt-0"
+          style={{ background: "var(--gradient-primary)", transform: "translateZ(30px)" }}
+        >
           Buscar →
         </button>
       </div>
@@ -126,7 +155,7 @@ function SearchPanel() {
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
-    <label className="block cursor-text rounded-xl px-4 py-3 transition hover:bg-white/5">
+    <label className="block cursor-text rounded-xl px-4 py-3 transition hover:bg-white/60 hover:shadow-3d">
       <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
         {label}
       </div>
@@ -138,32 +167,36 @@ function Field({ label, value }: { label: string; value: string }) {
 function Globe3D() {
   return (
     <div
-      className="relative mx-auto aspect-square w-full max-w-[520px]"
+      className="relative mx-auto aspect-square w-full max-w-[520px] preserve-3d"
       style={{ perspective: "1400px" }}
     >
       {/* Orbital ring */}
       <div
-        className="absolute inset-8 rounded-full border border-primary/30"
+        className="absolute inset-8 rounded-full border-2 border-accent/40 animate-globe"
         style={{ transform: "rotateX(72deg) rotateZ(20deg)" }}
       />
       <div
-        className="absolute inset-4 rounded-full border border-accent/20"
-        style={{ transform: "rotateX(68deg) rotateZ(-30deg)" }}
+        className="absolute inset-4 rounded-full border border-primary/25"
+        style={{ transform: "rotateX(68deg) rotateZ(-30deg)", animation: "globe-spin 60s linear infinite reverse" }}
+      />
+      <div
+        className="absolute inset-0 rounded-full border border-foreground/10"
+        style={{ transform: "rotateX(78deg) rotateZ(50deg)" }}
       />
 
       {/* Globe */}
       <div
-        className="absolute inset-12 rounded-full shadow-glow animate-globe"
+        className="absolute inset-12 rounded-full animate-globe"
         style={{
           transformStyle: "preserve-3d",
           background:
-            "radial-gradient(circle at 30% 30%, oklch(0.55 0.15 240), oklch(0.2 0.08 275) 60%, oklch(0.12 0.04 275))",
+            "radial-gradient(circle at 30% 28%, oklch(0.96 0.01 85), oklch(0.82 0.03 165) 55%, oklch(0.55 0.03 250) 100%)",
           boxShadow:
-            "inset -30px -40px 80px oklch(0.08 0.04 275), inset 20px 20px 60px oklch(0.72 0.19 320 / 0.3), 0 30px 100px oklch(0.72 0.19 320 / 0.4)",
+            "inset -30px -50px 90px oklch(0.4 0.02 250 / 0.35), inset 30px 30px 70px oklch(1 0 0 / 0.6), 0 40px 100px -20px oklch(0.24 0.015 250 / 0.35)",
         }}
       >
         {/* Meridians */}
-        <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full opacity-40">
+        <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full opacity-50">
           {Array.from({ length: 8 }).map((_, i) => (
             <ellipse
               key={i}
@@ -172,7 +205,7 @@ function Globe3D() {
               rx={100 - i * 12}
               ry="95"
               fill="none"
-              stroke="oklch(0.82 0.18 85 / 0.4)"
+              stroke="oklch(0.42 0.03 250 / 0.4)"
               strokeWidth="0.5"
             />
           ))}
@@ -183,7 +216,7 @@ function Globe3D() {
               y1={30 + i * 25}
               x2="200"
               y2={30 + i * 25}
-              stroke="oklch(0.82 0.18 85 / 0.3)"
+              stroke="oklch(0.42 0.03 250 / 0.3)"
               strokeWidth="0.5"
             />
           ))}
@@ -198,8 +231,8 @@ function Globe3D() {
       >
         <defs>
           <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="oklch(0.82 0.18 85)" />
-            <stop offset="100%" stopColor="oklch(0.72 0.19 320)" />
+            <stop offset="0%" stopColor="oklch(0.72 0.045 165)" />
+            <stop offset="100%" stopColor="oklch(0.55 0.04 250)" />
           </linearGradient>
         </defs>
         <path
@@ -210,8 +243,8 @@ function Globe3D() {
           strokeWidth="2"
           className="animate-dash"
         />
-        <circle cx="80" cy="340" r="6" fill="oklch(0.82 0.18 85)" />
-        <circle cx="440" cy="200" r="6" fill="oklch(0.72 0.19 320)" />
+        <circle cx="80" cy="340" r="6" fill="oklch(0.72 0.045 165)" />
+        <circle cx="440" cy="200" r="6" fill="oklch(0.55 0.04 250)" />
 
         {/* Plane traveling along path */}
         <g
@@ -223,11 +256,11 @@ function Globe3D() {
         >
           <path
             d="M -8 0 L 8 0 M 0 -4 L 0 4"
-            stroke="oklch(0.97 0.01 250)"
+            stroke="oklch(0.24 0.015 250)"
             strokeWidth="2"
             strokeLinecap="round"
           />
-          <circle r="10" fill="oklch(0.82 0.18 85 / 0.3)" />
+          <circle r="10" fill="oklch(0.72 0.045 165 / 0.35)" />
         </g>
       </svg>
 
@@ -301,27 +334,27 @@ function RouteCard({
   const tilt = [-4, 3, -2, 5][index % 4];
   return (
     <article
-      className="glass group relative overflow-hidden rounded-3xl p-6 transition-transform duration-500 hover:-translate-y-2 animate-rise"
+      className="glass group relative overflow-hidden rounded-3xl p-6 transition-all duration-500 hover:-translate-y-3 hover:rotate-0 animate-rise preserve-3d"
       style={{
-        transform: `rotateY(${tilt}deg) rotateX(${index % 2 === 0 ? 4 : -3}deg)`,
+        transform: `rotateY(${tilt}deg) rotateX(${index % 2 === 0 ? 6 : -4}deg) translateZ(${index * 6}px)`,
         transformStyle: "preserve-3d",
         animationDelay: `${index * 0.1}s`,
       }}
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-40 blur-3xl transition-opacity group-hover:opacity-70"
+        className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-50 blur-3xl transition-opacity group-hover:opacity-90"
         style={{ background: "var(--gradient-primary)" }}
       />
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between" style={{ transform: "translateZ(20px)" }}>
         <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
           {route.dur}
         </div>
         <div className="font-display text-2xl font-bold text-gradient">{route.price}</div>
       </div>
 
-      <div className="mt-6 flex items-center gap-3">
+      <div className="mt-6 flex items-center gap-3" style={{ transform: "translateZ(30px)" }}>
         <span className="font-display text-3xl font-extrabold">{route.from}</span>
         <svg viewBox="0 0 40 12" className="h-3 flex-1 text-primary/60">
           <path
@@ -336,10 +369,61 @@ function RouteCard({
 
       <div className="mt-2 text-sm text-muted-foreground">{route.label}</div>
 
-      <button className="mt-6 w-full rounded-xl border border-border bg-white/5 py-2.5 text-sm font-medium transition group-hover:border-primary/60 group-hover:bg-primary/10">
+      <button
+        className="mt-6 w-full rounded-xl border border-border bg-white/50 py-2.5 text-sm font-medium transition group-hover:border-primary/60 group-hover:bg-white/80 group-hover:shadow-3d"
+        style={{ transform: "translateZ(15px)" }}
+      >
         Reservar vuelo
       </button>
     </article>
+  );
+}
+
+function Experience3D() {
+  const items = [
+    { t: "Cabina", d: "Vista previa 3D del asiento antes de reservar." },
+    { t: "Ruta", d: "Trayectorias esféricas con altitud y clima real." },
+    { t: "Tarifa", d: "Capas transparentes: base, tasas y equipaje." },
+  ];
+  return (
+    <section className="relative z-10 mx-auto max-w-7xl px-6 pb-32">
+      <div className="mb-10">
+        <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          // experiencia
+        </div>
+        <h2 className="mt-2 font-display text-4xl font-bold sm:text-5xl">
+          Tres dimensiones, <span className="text-gradient">cero fricción</span>
+        </h2>
+      </div>
+      <div className="grid gap-8 md:grid-cols-3" style={{ perspective: "1600px" }}>
+        {items.map((it, i) => (
+          <div
+            key={it.t}
+            className="glass rounded-3xl p-8 preserve-3d animate-rise"
+            style={{
+              transform: `rotateX(${i === 1 ? 0 : i === 0 ? 8 : -8}deg) rotateY(${i === 1 ? 0 : i === 0 ? -6 : 6}deg)`,
+              animationDelay: `${i * 0.12}s`,
+            }}
+          >
+            <div
+              className="mb-6 grid h-14 w-14 place-items-center rounded-2xl shadow-3d"
+              style={{
+                background: "linear-gradient(145deg, oklch(0.98 0.006 85), oklch(0.86 0.03 165))",
+                transform: "translateZ(30px)",
+              }}
+            >
+              <span className="font-display text-lg font-bold">0{i + 1}</span>
+            </div>
+            <h3 className="font-display text-2xl font-bold" style={{ transform: "translateZ(20px)" }}>
+              {it.t}
+            </h3>
+            <p className="mt-3 text-muted-foreground" style={{ transform: "translateZ(10px)" }}>
+              {it.d}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -348,7 +432,7 @@ function Footer() {
     <footer className="relative z-10 border-t border-border">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
         <div className="font-mono text-xs uppercase tracking-widest">
-          © 2026 Vuelos Pro — Coordenadas 40.4168°N, 3.7038°W
+          © 2026 VuelosDk — 40.4168°N, 3.7038°W
         </div>
         <div className="flex gap-6">
           <a href="#" className="hover:text-foreground">Privacidad</a>

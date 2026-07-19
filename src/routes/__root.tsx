@@ -77,17 +77,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Vuelos Pro — Vuela en otra dimensión" },
+      { title: "VuelosDk — Universo 3D de vuelos" },
       {
         name: "description",
         content:
-          "Reserva vuelos con una experiencia inmersiva 3D. Rutas, precios y horarios en tiempo real.",
+          "Reserva vuelos en un universo totalmente 3D. Rutas, precios y horarios con una interfaz espacial sutil y minimalista.",
       },
-      { name: "author", content: "Vuelos Pro" },
-      { property: "og:title", content: "Vuelos Pro — Vuela en otra dimensión" },
+      { name: "author", content: "VuelosDk" },
+      { property: "og:title", content: "VuelosDk — Universo 3D de vuelos" },
       {
         property: "og:description",
-        content: "Reserva vuelos con una experiencia inmersiva 3D.",
+        content: "Reserva vuelos en un universo totalmente 3D con estética minimalista.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
