@@ -63,26 +63,26 @@
 
 :root {
   --radius: 1rem;
-  /* Subtle porcelain palette — warm ivory, stone, muted slate & dusty sage */
-  --background: oklch(0.965 0.008 85);
-  --foreground: oklch(0.24 0.015 250);
-  --card: oklch(0.98 0.006 85 / 0.7);
+  /* Elegant paper palette — warm ivory, deep slate, muted teal accent */
+  --background: oklch(0.985 0.005 85);
+  --foreground: oklch(0.22 0.015 250);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.24 0.015 250);
   --popover: oklch(0.98 0.006 85);
   --popover-foreground: oklch(0.24 0.015 250);
-  --primary: oklch(0.42 0.03 250);
+  --primary: oklch(0.32 0.04 250);
   --primary-foreground: oklch(0.97 0.008 85);
-  --secondary: oklch(0.92 0.012 80);
+  --secondary: oklch(0.94 0.008 85);
   --secondary-foreground: oklch(0.28 0.015 250);
-  --muted: oklch(0.93 0.008 85);
-  --muted-foreground: oklch(0.5 0.012 250);
-  --accent: oklch(0.72 0.045 165);
-  --accent-foreground: oklch(0.22 0.02 250);
+  --muted: oklch(0.955 0.006 85);
+  --muted-foreground: oklch(0.48 0.012 250);
+  --accent: oklch(0.62 0.06 190);
+  --accent-foreground: oklch(0.98 0.005 85);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.24 0.015 250 / 0.1);
-  --input: oklch(0.24 0.015 250 / 0.06);
-  --ring: oklch(0.72 0.045 165);
+  --border: oklch(0.24 0.015 250 / 0.12);
+  --input: oklch(0.24 0.015 250 / 0.08);
+  --ring: oklch(0.32 0.04 250);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -97,37 +97,16 @@
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
 
-  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --gradient-aurora: radial-gradient(
-      ellipse 70% 55% at 15% 10%,
-      oklch(0.85 0.03 165 / 0.55),
-      transparent 65%
-    ),
-    radial-gradient(
-      ellipse 60% 45% at 85% 15%,
-      oklch(0.88 0.02 250 / 0.5),
-      transparent 65%
-    ),
-    radial-gradient(
-      ellipse 90% 60% at 50% 100%,
-      oklch(0.9 0.02 60 / 0.4),
-      transparent 70%
-    );
-  --gradient-primary: linear-gradient(
-    135deg,
-    oklch(0.72 0.045 165),
-    oklch(0.68 0.04 250)
-  );
-  --shadow-glow: 0 30px 60px -20px oklch(0.24 0.015 250 / 0.18),
-    0 10px 30px -12px oklch(0.24 0.015 250 / 0.12);
-  --shadow-3d: 0 1px 0 oklch(1 0 0 / 0.6) inset,
-    0 -1px 0 oklch(0.24 0.015 250 / 0.06) inset,
-    0 20px 40px -20px oklch(0.24 0.015 250 / 0.2),
-    0 8px 16px -8px oklch(0.24 0.015 250 / 0.12);
+  --shadow-soft:
+    0 1px 2px oklch(0.22 0.015 250 / 0.04),
+    0 8px 24px -12px oklch(0.22 0.015 250 / 0.12);
+  --shadow-card:
+    0 1px 0 oklch(0.22 0.015 250 / 0.04),
+    0 20px 40px -24px oklch(0.22 0.015 250 / 0.15);
 }
 
 .dark {
@@ -171,166 +150,52 @@
   }
 
   body {
-    background:
-      var(--gradient-aurora),
-      var(--color-background);
-    background-attachment: fixed;
+    background: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4, .font-display {
+  h1, h2, h3, h4, h5, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.035em;
+    letter-spacing: -0.02em;
+    font-weight: 400;
   }
-  .font-serif { font-family: var(--font-serif); font-style: italic; letter-spacing: -0.01em; }
 
   .font-mono {
     font-family: var(--font-mono);
   }
+
+  :where(a, button, [role="button"], input, textarea, select):focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
 }
 
 @layer utilities {
-  .scene-3d {
-    perspective: 1400px;
-    transform-style: preserve-3d;
-  }
-  .preserve-3d { transform-style: preserve-3d; }
-  .glass {
-    background: linear-gradient(
-      135deg,
-      oklch(1 0 0 / 0.75),
-      oklch(1 0 0 / 0.45)
-    );
-    backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid oklch(1 0 0 / 0.6);
-    box-shadow: var(--shadow-3d);
-  }
-  .text-gradient {
-    background: var(--gradient-primary);
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+
+  .text-accent-gradient {
+    background: linear-gradient(120deg, var(--color-foreground), var(--color-accent));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
-  }
-  .shadow-3d { box-shadow: var(--shadow-3d); }
-  .grid-floor {
-    background-image:
-      linear-gradient(oklch(0.24 0.015 250 / 0.08) 1px, transparent 1px),
-      linear-gradient(90deg, oklch(0.24 0.015 250 / 0.08) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
 
-  @keyframes orbit {
-    from { transform: rotate(0deg) translateX(var(--orbit-r, 200px)) rotate(0deg); }
-    to { transform: rotate(360deg) translateX(var(--orbit-r, 200px)) rotate(-360deg); }
-  }
-  @keyframes float3d {
-    0%, 100% { transform: translate3d(0,0,0) rotateX(var(--rx, 8deg)) rotateY(var(--ry, -12deg)); }
-    50% { transform: translate3d(0,-14px,20px) rotateX(calc(var(--rx, 8deg) + 3deg)) rotateY(calc(var(--ry, -12deg) + 4deg)); }
-  }
-  @keyframes globe-spin {
-    from { transform: rotateY(0deg); }
-    to { transform: rotateY(360deg); }
-  }
-  @keyframes scene-drift {
-    0%, 100% { transform: rotateX(58deg) rotateZ(0deg); }
-    50% { transform: rotateX(58deg) rotateZ(2deg); }
-  }
-  @keyframes floor-scroll {
-    from { background-position: 0 0; }
-    to { background-position: 0 60px; }
-  }
-  @keyframes dash {
-    to { stroke-dashoffset: -400; }
-  }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.15; }
-    50% { opacity: 0.6; }
-  }
-  @keyframes plane-path {
-    0% { offset-distance: 0%; opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { offset-distance: 100%; opacity: 0; }
-  }
   @keyframes rise {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(14px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes tilt-hover {
-    0%, 100% { transform: rotateX(6deg) rotateY(-8deg); }
-    50% { transform: rotateX(8deg) rotateY(-4deg); }
-  }
+  .animate-rise { animation: rise 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
 
-  .animate-float3d { animation: float3d 6s ease-in-out infinite; }
-  .animate-globe { animation: globe-spin 40s linear infinite; }
-  .animate-dash { stroke-dasharray: 8 8; animation: dash 8s linear infinite; }
-  .animate-twinkle { animation: twinkle 3s ease-in-out infinite; }
-  .animate-rise { animation: rise 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
-  .animate-tilt-hover { animation: tilt-hover 8s ease-in-out infinite; }
-  .animate-floor { animation: floor-scroll 12s linear infinite; }
-
-  @keyframes plane-hover {
-    0%, 100% { transform: rotateX(12deg) rotateY(-18deg) rotateZ(-6deg) translateY(0); }
-    50% { transform: rotateX(14deg) rotateY(-14deg) rotateZ(-4deg) translateY(-18px); }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-rise { animation: none; }
+    * { transition-duration: 0.01ms !important; }
   }
-  .animate-plane-hover { animation: plane-hover 8s ease-in-out infinite; }
-
-  @keyframes contrail {
-    0% { opacity: 0; transform: scaleX(0.2); }
-    40% { opacity: 1; }
-    100% { opacity: 0; transform: scaleX(1.4); }
-  }
-  .animate-contrail { animation: contrail 4s ease-out infinite; transform-origin: right center; }
-
-  @keyframes orbit-badge {
-    from { transform: rotate(0deg) translateX(var(--r, 340px)) rotate(0deg); }
-    to { transform: rotate(360deg) translateX(var(--r, 340px)) rotate(-360deg); }
-  }
-  .animate-orbit { animation: orbit-badge var(--dur, 30s) linear infinite; }
-
-  .text-3d {
-    text-shadow:
-      1px 1px 0 oklch(0.24 0.015 250 / 0.08),
-      2px 2px 0 oklch(0.24 0.015 250 / 0.07),
-      3px 3px 0 oklch(0.24 0.015 250 / 0.06),
-      4px 4px 0 oklch(0.24 0.015 250 / 0.05),
-      5px 5px 0 oklch(0.24 0.015 250 / 0.04),
-      8px 14px 30px oklch(0.24 0.015 250 / 0.2);
-  }
-
-  @keyframes orbit-plane {
-    from { transform: rotate(0deg) translateX(var(--r, 340px)); }
-    to { transform: rotate(360deg) translateX(var(--r, 340px)); }
-  }
-  .animate-orbit-plane { animation: orbit-plane var(--dur, 34s) linear infinite; }
-
-  @keyframes cloud-drift {
-    0% { transform: translate3d(-20vw, 0, 0); }
-    100% { transform: translate3d(120vw, 0, 0); }
-  }
-  .animate-cloud { animation: cloud-drift var(--dur, 80s) linear infinite; }
-
-  @keyframes spin-slow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  .animate-spin-slow { animation: spin-slow 40s linear infinite; }
-
-  @keyframes ticket-float {
-    0%, 100% { transform: rotateX(12deg) rotateY(-16deg) translateY(0); }
-    50% { transform: rotateX(8deg) rotateY(-10deg) translateY(-14px); }
-  }
-  .animate-ticket { animation: ticket-float 7s ease-in-out infinite; }
-
-  @keyframes luggage-bob {
-    0%, 100% { transform: rotateX(6deg) rotateY(18deg) translateY(0); }
-    50% { transform: rotateX(10deg) rotateY(14deg) translateY(-10px); }
-  }
-  .animate-luggage { animation: luggage-bob 6s ease-in-out infinite; }
 }
