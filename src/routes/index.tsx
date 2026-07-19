@@ -1,879 +1,329 @@
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  Calendar,
+  MapPin,
+  Plane,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  Users,
+  Wallet,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 const ROUTES = [
-  { from: "MAD", to: "NRT", price: "€742", label: "Madrid → Tokio", dur: "14h 20m" },
-  { from: "BCN", to: "JFK", price: "€389", label: "Barcelona → Nueva York", dur: "8h 55m" },
-  { from: "LIM", to: "CDG", price: "€612", label: "Lima → París", dur: "12h 40m" },
-  { from: "MEX", to: "DXB", price: "€890", label: "México → Dubái", dur: "16h 10m" },
+  { from: "MEX", to: "CUN", label: "México → Cancún", price: "$1,240", dur: "2h 20m", airline: "Aeroméxico" },
+  { from: "GDL", to: "MTY", label: "Guadalajara → Monterrey", price: "$890", dur: "1h 30m", airline: "Viva Aerobus" },
+  { from: "MEX", to: "MAD", label: "México → Madrid", price: "$14,500", dur: "10h 45m", airline: "Aeroméxico" },
+  { from: "TIJ", to: "MEX", label: "Tijuana → CDMX", price: "$1,590", dur: "3h 40m", airline: "Volaris" },
+];
+
+const FEATURES = [
+  {
+    icon: Wallet,
+    title: "Precios transparentes",
+    desc: "Sin cargos ocultos. Ves el total con impuestos y equipaje desde el primer paso.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Reserva protegida",
+    desc: "Cancelación flexible y soporte 24/7 para cualquier cambio en tu itinerario.",
+  },
+  {
+    icon: Sparkles,
+    title: "Mejores tarifas",
+    desc: "Comparamos Aeroméxico, Viva Aerobus, Volaris y más para encontrar el precio justo.",
+  },
 ];
 
 function Index() {
   return (
-    <main className="relative min-h-screen scene-3d overflow-hidden">
-      {/* 3D floor grid receding into horizon */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-x-0 bottom-0 z-0 h-[70vh] origin-top grid-floor animate-floor"
-        style={{
-          transform: "perspective(900px) rotateX(62deg)",
-          maskImage:
-            "linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%)",
-        }}
-      />
-      {/* Subtle floating orbs */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed left-[8%] top-[18%] z-0 h-72 w-72 rounded-full blur-3xl"
-        style={{ background: "oklch(0.85 0.03 165 / 0.5)" }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none fixed right-[6%] top-[35%] z-0 h-96 w-96 rounded-full blur-3xl"
-        style={{ background: "oklch(0.88 0.02 250 / 0.45)" }}
-      />
-
-      <Nav />
-      <Hero />
-      <RouteDeck />
-      <Experience3D />
-      <Footer />
-    </main>
+    <div className="min-h-dvh bg-background text-foreground">
+      <SiteHeader />
+      <main id="main">
+        <Hero />
+        <Routes />
+        <Features />
+        <CTA />
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
 
-function Nav() {
+function SiteHeader() {
   return (
-    <header className="relative z-30 mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-      <a
-        href="/"
-        className="flex items-center gap-3 font-display text-xl font-bold tracking-tight"
-        style={{ transform: "translateZ(20px)" }}
-      >
-        <span
-          className="grid h-10 w-10 place-items-center rounded-2xl shadow-3d"
-          style={{
-            background:
-              "linear-gradient(145deg, oklch(0.98 0.006 85), oklch(0.86 0.02 165))",
-            transform: "perspective(400px) rotateX(20deg) rotateY(-20deg)",
-            transformStyle: "preserve-3d",
-          }}
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5 text-foreground" fill="currentColor">
-            <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" />
-          </svg>
-        </span>
-        Vuelos<span className="text-gradient">Dk</span>
-      </a>
-      <nav className="hidden gap-8 text-sm text-muted-foreground md:flex">
-        <a href="#" className="hover:text-foreground transition">Rutas</a>
-        <a href="#" className="hover:text-foreground transition">Ofertas</a>
-        <a href="#" className="hover:text-foreground transition">Experiencia 3D</a>
-        <a href="#" className="hover:text-foreground transition">Ayuda</a>
-      </nav>
-      <button className="glass rounded-full px-5 py-2 text-sm font-medium transition hover:-translate-y-0.5">
-        Iniciar sesión
-      </button>
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-4 sm:px-6">
+        <a href="/" className="flex min-w-0 items-center gap-2" aria-label="VuelosDk inicio">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-foreground text-background">
+            <Plane className="h-4 w-4" aria-hidden="true" />
+          </span>
+          <span className="truncate font-display text-xl tracking-tight">
+            Vuelos<span className="text-accent">Dk</span>
+          </span>
+        </a>
+        <div className="flex items-center gap-2">
+          <nav aria-label="Principal" className="hidden md:block">
+            <ul className="flex items-center gap-1 text-sm text-muted-foreground">
+              <li><a href="#rutas" className="rounded-md px-3 py-2 transition-colors hover:text-foreground">Rutas</a></li>
+              <li><a href="#ventajas" className="rounded-md px-3 py-2 transition-colors hover:text-foreground">Ventajas</a></li>
+              <li><a href="#ayuda" className="rounded-md px-3 py-2 transition-colors hover:text-foreground">Ayuda</a></li>
+            </ul>
+          </nav>
+          <Button variant="default" className="min-h-11">
+            Iniciar sesión
+          </Button>
+        </div>
+      </div>
     </header>
   );
 }
 
 function Hero() {
   return (
-    <section className="relative z-10 mx-auto max-w-7xl px-6 pt-4 pb-16 lg:pt-8">
-      <div className="flex flex-col items-center text-center animate-rise">
-        <span className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-white/60 px-3 py-1 text-xs uppercase tracking-widest text-muted-foreground shadow-3d">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary animate-twinkle" />
-          Bienvenido al aire · Motor 3D
-        </span>
-      </div>
+    <section className="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px]"
+        style={{
+          background:
+            "radial-gradient(60% 55% at 50% 0%, oklch(0.62 0.06 190 / 0.12), transparent 70%)",
+        }}
+      />
+      <div className="mx-auto max-w-6xl px-4 pb-8 pt-16 sm:px-6 sm:pt-24">
+        <div className="mx-auto max-w-3xl text-center animate-rise">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+            Reservas seguras · Precios en tiempo real
+          </span>
+          <h1 className="mt-6 text-balance font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+            Encuentra el vuelo{" "}
+            <em className="italic text-accent-gradient">perfecto</em>
+            <br className="hidden sm:block" /> para tu próximo viaje.
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-base text-muted-foreground sm:text-lg">
+            Compara tarifas de las principales aerolíneas y reserva en segundos con una
+            experiencia diseñada para viajeros exigentes.
+          </p>
+        </div>
 
-      <PlaneStage />
-
-      <div className="mx-auto mt-4 max-w-2xl text-center">
-        <p className="font-serif text-2xl leading-snug text-muted-foreground sm:text-3xl">
-          Un aeropuerto tridimensional. Rutas suspendidas, tarifas transparentes
-          y las aerolíneas de México orbitando tu próximo destino.
-        </p>
-      </div>
-
-      <div className="mx-auto mt-10 max-w-4xl">
-        <SearchPanel />
-      </div>
-
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
-        <Stat value="2.4M" label="Rutas activas" />
-        <span className="h-6 w-px bg-border" />
-        <Stat value="180+" label="Aeropuertos" />
-        <span className="h-6 w-px bg-border" />
-        <Stat value="99.98%" label="Puntualidad" />
+        <SearchCard />
       </div>
     </section>
   );
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
+function SearchCard() {
   return (
-    <div>
-      <div className="font-display text-2xl font-bold text-foreground">{value}</div>
-      <div className="font-mono text-[11px] uppercase tracking-widest">{label}</div>
-    </div>
-  );
-}
-
-function SearchPanel() {
-  return (
-    <div
-      className="glass mt-10 rounded-3xl p-2 preserve-3d animate-tilt-hover"
-      style={{ transformOrigin: "center top" }}
+    <form
+      className="mx-auto mt-10 max-w-4xl rounded-2xl border border-border bg-card p-4 shadow-card sm:p-6 animate-rise"
+      style={{ animationDelay: "0.1s" }}
+      onSubmit={(e) => e.preventDefault()}
+      aria-label="Buscar vuelos"
     >
-      <div className="grid gap-2 rounded-2xl bg-white/40 p-4 md:grid-cols-[1fr_1fr_1fr_auto] md:items-end">
-        <Field label="Desde" value="Madrid · MAD" />
-        <Field label="Hacia" value="Tokio · NRT" />
-        <Field label="Fecha" value="14 Ago 2026" />
-        <button
-          className="mt-2 h-12 rounded-xl px-6 font-semibold text-primary-foreground shadow-3d transition hover:-translate-y-1 hover:brightness-105 md:mt-0"
-          style={{ background: "var(--gradient-primary)", transform: "translateZ(30px)" }}
-        >
-          Buscar →
-        </button>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:items-end">
+        <FieldGroup id="from" label="Origen" icon={MapPin} placeholder="Ciudad o aeropuerto" defaultValue="Ciudad de México (MEX)" />
+        <FieldGroup id="to" label="Destino" icon={MapPin} placeholder="Ciudad o aeropuerto" defaultValue="Cancún (CUN)" />
+        <FieldGroup id="date" label="Fecha" icon={Calendar} type="date" defaultValue="2026-08-14" />
+        <Button type="submit" size="lg" className="mt-1 min-h-12 gap-2 sm:col-span-2 lg:col-span-1 lg:mt-0">
+          <Search className="h-4 w-4" aria-hidden="true" />
+          Buscar vuelos
+        </Button>
       </div>
-    </div>
+      <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5">
+          <Users className="h-3.5 w-3.5" aria-hidden="true" /> 1 adulto
+        </span>
+        <span aria-hidden="true">·</span>
+        <span>Clase turista</span>
+        <span aria-hidden="true">·</span>
+        <span>Solo ida</span>
+      </div>
+    </form>
   );
 }
 
-function Field({ label, value }: { label: string; value: string }) {
+type FieldGroupProps = {
+  id: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
+  placeholder?: string;
+  defaultValue?: string;
+  type?: string;
+};
+
+function FieldGroup({ id, label, icon: Icon, placeholder, defaultValue, type = "text" }: FieldGroupProps) {
   return (
-    <label className="block cursor-text rounded-xl px-4 py-3 transition hover:bg-white/60 hover:shadow-3d">
-      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+    <div className="space-y-1.5">
+      <Label htmlFor={id} className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
         {label}
-      </div>
-      <div className="mt-1 text-base font-medium text-foreground">{value}</div>
-    </label>
-  );
-}
-
-function PlaneStage() {
-  const airlines = [
-    { name: "Aeroméxico",   code: "AM", primary: "oklch(0.42 0.08 255)", accent: "oklch(0.72 0.14 30)",  delay: "0s",   dur: "38s", r: 380 },
-    { name: "Viva Aerobus", code: "VB", primary: "oklch(0.72 0.16 55)",  accent: "oklch(0.55 0.18 30)",  delay: "-13s", dur: "38s", r: 380 },
-    { name: "Volaris",      code: "Y4", primary: "oklch(0.62 0.18 340)", accent: "oklch(0.78 0.14 100)", delay: "-26s", dur: "38s", r: 380 },
-  ];
-  const chips = [
-    { t: "MEX", s: "México", top: "8%", left: "6%", d: "0s" },
-    { t: "CUN", s: "Cancún", top: "18%", right: "6%", d: "0.6s" },
-    { t: "GDL", s: "Guadalajara", bottom: "22%", left: "4%", d: "1.2s" },
-    { t: "MTY", s: "Monterrey", bottom: "12%", right: "8%", d: "1.8s" },
-  ] as const;
-
-  return (
-    <div
-      className="relative mx-auto mt-6 h-[560px] w-full max-w-[1100px] preserve-3d sm:h-[640px]"
-      style={{ perspective: "1600px" }}
-    >
-      {/* Drifting 3D clouds */}
-      <Cloud style={{ top: "12%", "--dur": "70s" } as React.CSSProperties} scale={1.1} />
-      <Cloud style={{ top: "42%", "--dur": "95s", animationDelay: "-30s" } as React.CSSProperties} scale={0.75} />
-      <Cloud style={{ top: "68%", "--dur": "110s", animationDelay: "-60s" } as React.CSSProperties} scale={1.35} />
-
-      {/* Compass HUD */}
-      <div className="absolute right-4 top-4 preserve-3d" style={{ transform: "rotateX(14deg) rotateY(-18deg) translateZ(60px)" }}>
-        <Compass />
-      </div>
-
-      {/* Boarding ticket */}
-      <div className="absolute -left-2 bottom-24 preserve-3d animate-ticket" style={{ transformOrigin: "center" }}>
-        <BoardingTicket />
-      </div>
-
-      {/* Luggage tag */}
-      <div className="absolute right-6 bottom-10 preserve-3d animate-luggage">
-        <LuggageTag />
-      </div>
-
-      {/* Soft orbital rings */}
-      <div
-        aria-hidden
-        className="absolute inset-x-10 top-1/2 aspect-[2/1] -translate-y-1/2 rounded-full border border-foreground/10"
-        style={{ transform: "translateY(-50%) rotateX(72deg)" }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-x-20 top-1/2 aspect-[2/1] -translate-y-1/2 rounded-full border border-foreground/15"
-        style={{ transform: "translateY(-50%) rotateX(72deg) rotateZ(20deg)" }}
-      />
-
-      {/* Giant 3D VUELOS DK title behind plane */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-6 flex justify-center preserve-3d"
-        style={{ transform: "translateZ(-120px)" }}
-      >
-        <h1
-          className="font-display font-extrabold uppercase leading-[0.82] tracking-[-0.06em] text-3d"
-          style={{
-            fontSize: "clamp(5rem, 16vw, 15rem)",
-            transform: "perspective(1400px) rotateX(18deg) rotateY(-6deg)",
-            background:
-              "linear-gradient(180deg, oklch(0.42 0.03 250) 0%, oklch(0.72 0.045 165) 60%, oklch(0.9 0.02 60 / 0.4) 100%)",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-          }}
-        >
-          Vuelos
-          <br />
-          <span className="font-serif italic" style={{ letterSpacing: "-0.03em" }}>
-            Dk
-          </span>
-        </h1>
-      </div>
-
-      {/* Airline orbit layer — mini 3D planes flying horizontally around the ring */}
-      <div
-        className="absolute left-1/2 top-1/2 h-0 w-0 preserve-3d"
-        style={{ transform: "translate(-50%, -50%) rotateX(70deg) rotateZ(-8deg)" }}
-      >
-        {airlines.map((a) => (
-          <div
-            key={a.name}
-            className="absolute left-0 top-0 animate-orbit-plane preserve-3d"
-            style={{
-              // @ts-expect-error custom css vars
-              "--r": `${a.r}px`,
-              "--dur": a.dur,
-              animationDelay: a.delay,
-            }}
-          >
-            <div className="-translate-x-1/2 -translate-y-1/2 preserve-3d">
-              <OrbitPlane airline={a} />
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Airport chips floating in 3D */}
-      {chips.map((c) => (
-        <FloatingChip key={c.t} chip={c} />
-      ))}
-
-      {/* Central giant plane */}
-      <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d animate-plane-hover"
-        style={{ width: "min(90%, 900px)" }}
-      >
-        <BigPlane />
-      </div>
-
-      {/* Ground shadow */}
-      <div
-        aria-hidden
-        className="absolute bottom-8 left-1/2 h-8 w-[70%] -translate-x-1/2 rounded-[50%] blur-2xl"
-        style={{ background: "oklch(0.24 0.015 250 / 0.28)" }}
-      />
-    </div>
-  );
-}
-
-function BigPlane() {
-  return (
-    <svg
-      viewBox="0 0 900 380"
-      className="h-auto w-full drop-shadow-[0_40px_60px_oklch(0.24_0.015_250/0.25)]"
-    >
-      <defs>
-        <linearGradient id="fuselage" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="oklch(0.99 0.005 85)" />
-          <stop offset="55%" stopColor="oklch(0.92 0.008 85)" />
-          <stop offset="100%" stopColor="oklch(0.72 0.02 250)" />
-        </linearGradient>
-        <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="oklch(0.86 0.02 165)" />
-          <stop offset="100%" stopColor="oklch(0.55 0.04 250)" />
-        </linearGradient>
-        <linearGradient id="stripe" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="oklch(0.72 0.045 165)" />
-          <stop offset="100%" stopColor="oklch(0.55 0.04 250)" />
-        </linearGradient>
-        <radialGradient id="engine" cx="0.3" cy="0.3">
-          <stop offset="0%" stopColor="oklch(0.98 0.005 85)" />
-          <stop offset="100%" stopColor="oklch(0.35 0.02 250)" />
-        </radialGradient>
-      </defs>
-
-      {/* Contrail */}
-      <g className="animate-contrail">
-        <rect x="20" y="182" width="180" height="10" rx="5" fill="oklch(1 0 0 / 0.7)" />
-        <rect x="60" y="196" width="120" height="6" rx="3" fill="oklch(1 0 0 / 0.4)" />
-      </g>
-
-      {/* Back wing */}
-      <path d="M540 170 L720 90 L780 100 L640 200 Z" fill="url(#wing)" opacity="0.75" />
-      {/* Tail */}
-      <path d="M660 190 L780 60 L820 70 L740 200 Z" fill="url(#wing)" />
-      <path d="M730 130 L800 80 L810 85 L760 140 Z" fill="oklch(0.42 0.03 250)" opacity="0.6" />
-
-      {/* Fuselage */}
-      <path
-        d="M100 190 Q 220 150 480 155 L780 175 Q 820 190 780 205 L480 225 Q 220 230 100 190 Z"
-        fill="url(#fuselage)"
-        stroke="oklch(0.24 0.015 250 / 0.15)"
-        strokeWidth="1"
-      />
-
-      {/* Cockpit windows */}
-      <path d="M120 188 Q 140 178 175 178 L175 195 Q 145 195 120 192 Z" fill="oklch(0.35 0.03 250)" />
-      {/* Passenger windows */}
-      {Array.from({ length: 18 }).map((_, i) => (
-        <circle
-          key={i}
-          cx={210 + i * 26}
-          cy={188}
-          r={3.2}
-          fill="oklch(0.55 0.04 250)"
-          opacity="0.85"
+      </Label>
+      <div className="relative">
+        <Icon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden={true} />
+        <Input
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          className="h-12 pl-9 text-base"
         />
-      ))}
-
-      {/* Stripe */}
-      <path
-        d="M110 205 Q 260 218 780 205 L780 213 Q 260 226 110 213 Z"
-        fill="url(#stripe)"
-        opacity="0.7"
-      />
-
-      {/* Front wing */}
-      <path d="M360 210 L260 320 L420 315 L510 230 Z" fill="url(#wing)" />
-      <path d="M360 210 L340 320 L420 315 Z" fill="oklch(0.42 0.03 250)" opacity="0.35" />
-
-      {/* Engine */}
-      <ellipse cx="360" cy="270" rx="42" ry="18" fill="url(#engine)" />
-      <ellipse cx="345" cy="270" rx="10" ry="12" fill="oklch(0.15 0.015 250)" />
-
-      {/* Nose highlight */}
-      <path
-        d="M100 190 Q 130 175 175 178 Q 140 190 175 202 Q 130 205 100 190 Z"
-        fill="oklch(1 0 0 / 0.35)"
-      />
-
-      {/* Livery text */}
-      <text
-        x="360"
-        y="192"
-        fontFamily="Bricolage Grotesque, sans-serif"
-        fontSize="20"
-        fontWeight="800"
-        fill="oklch(0.24 0.015 250)"
-        letterSpacing="1"
-      >
-        VUELOS DK
-      </text>
-    </svg>
-  );
-}
-
-function FloatingChip({
-  chip,
-}: {
-  chip: {
-    t: string;
-    s: string;
-    top?: string;
-    bottom?: string;
-    left?: string;
-    right?: string;
-    d: string;
-  };
-}) {
-  return (
-    <div
-      className="glass absolute rounded-2xl px-3 py-2 animate-float3d preserve-3d"
-      style={{
-        top: chip.top,
-        bottom: chip.bottom,
-        left: chip.left,
-        right: chip.right,
-        animationDelay: chip.d,
-        transform: "translateZ(40px)",
-      }}
-    >
-      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-        {chip.s}
       </div>
-      <div className="font-display text-lg font-bold">{chip.t}</div>
     </div>
   );
 }
 
-function _UnusedGlobe3D() {
+function Routes() {
   return (
-    <div
-      className="relative mx-auto aspect-square w-full max-w-[520px] preserve-3d"
-      style={{ perspective: "1400px" }}
-    >
-      {/* Orbital ring */}
-      <div
-        className="absolute inset-8 rounded-full border-2 border-accent/40 animate-globe"
-        style={{ transform: "rotateX(72deg) rotateZ(20deg)" }}
-      />
-      <div
-        className="absolute inset-4 rounded-full border border-primary/25"
-        style={{ transform: "rotateX(68deg) rotateZ(-30deg)", animation: "globe-spin 60s linear infinite reverse" }}
-      />
-      <div
-        className="absolute inset-0 rounded-full border border-foreground/10"
-        style={{ transform: "rotateX(78deg) rotateZ(50deg)" }}
-      />
-
-      {/* Globe */}
-      <div
-        className="absolute inset-12 rounded-full animate-globe"
-        style={{
-          transformStyle: "preserve-3d",
-          background:
-            "radial-gradient(circle at 30% 28%, oklch(0.96 0.01 85), oklch(0.82 0.03 165) 55%, oklch(0.55 0.03 250) 100%)",
-          boxShadow:
-            "inset -30px -50px 90px oklch(0.4 0.02 250 / 0.35), inset 30px 30px 70px oklch(1 0 0 / 0.6), 0 40px 100px -20px oklch(0.24 0.015 250 / 0.35)",
-        }}
-      >
-        {/* Meridians */}
-        <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full opacity-50">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <ellipse
-              key={i}
-              cx="100"
-              cy="100"
-              rx={100 - i * 12}
-              ry="95"
-              fill="none"
-              stroke="oklch(0.42 0.03 250 / 0.4)"
-              strokeWidth="0.5"
-            />
-          ))}
-          {Array.from({ length: 6 }).map((_, i) => (
-            <line
-              key={i}
-              x1="0"
-              y1={30 + i * 25}
-              x2="200"
-              y2={30 + i * 25}
-              stroke="oklch(0.42 0.03 250 / 0.3)"
-              strokeWidth="0.5"
-            />
-          ))}
-        </svg>
-      </div>
-
-      {/* Flight path SVG overlay */}
-      <svg
-        viewBox="0 0 520 520"
-        className="absolute inset-0 h-full w-full"
-        style={{ transform: "rotateX(15deg) rotateY(-8deg)", transformStyle: "preserve-3d" }}
-      >
-        <defs>
-          <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="oklch(0.72 0.045 165)" />
-            <stop offset="100%" stopColor="oklch(0.55 0.04 250)" />
-          </linearGradient>
-        </defs>
-        <path
-          id="fp"
-          d="M 80 340 Q 260 40 440 200"
-          fill="none"
-          stroke="url(#pg)"
-          strokeWidth="2"
-          className="animate-dash"
-        />
-        <circle cx="80" cy="340" r="6" fill="oklch(0.72 0.045 165)" />
-        <circle cx="440" cy="200" r="6" fill="oklch(0.55 0.04 250)" />
-
-        {/* Plane traveling along path */}
-        <g
-          style={{
-            offsetPath: "path('M 80 340 Q 260 40 440 200')",
-            offsetRotate: "auto",
-            animation: "plane-path 6s ease-in-out infinite",
-          }}
-        >
-          <path
-            d="M -8 0 L 8 0 M 0 -4 L 0 4"
-            stroke="oklch(0.24 0.015 250)"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <circle r="10" fill="oklch(0.72 0.045 165 / 0.35)" />
-        </g>
-      </svg>
-
-      {/* Floating labels */}
-      <FloatingBadge className="left-2 top-16" city="MAD" temp="+22°" delay="0s" />
-      <FloatingBadge className="right-4 bottom-24" city="NRT" temp="+18°" delay="1.5s" />
-    </div>
-  );
-}
-
-function FloatingBadge({
-  className,
-  city,
-  temp,
-  delay,
-}: {
-  className?: string;
-  city: string;
-  temp: string;
-  delay: string;
-}) {
-  return (
-    <div
-      className={`glass absolute rounded-2xl px-3 py-2 shadow-glow animate-float3d ${className ?? ""}`}
-      style={{ animationDelay: delay }}
-    >
-      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-        {city}
-      </div>
-      <div className="font-display text-lg font-bold">{temp}</div>
-    </div>
-  );
-}
-
-function RouteDeck() {
-  return (
-    <section className="relative z-10 mx-auto max-w-7xl px-6 pb-32">
-      <div className="mb-10 flex items-end justify-between">
-        <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-            // rutas destacadas
-          </div>
-          <h2 className="mt-2 font-display text-4xl font-bold sm:text-5xl">
-            El planeta, en <span className="text-gradient">tres capas</span>
+    <section id="rutas" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="max-w-xl">
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Rutas destacadas</p>
+          <h2 className="mt-2 font-display text-4xl tracking-tight sm:text-5xl">
+            Los destinos más buscados de la semana
           </h2>
         </div>
-        <a href="#" className="hidden text-sm text-muted-foreground hover:text-foreground md:block">
-          Ver todo →
+        <a
+          href="#"
+          className="inline-flex items-center gap-1 text-sm font-medium text-foreground underline-offset-4 hover:underline"
+        >
+          Ver todas las rutas
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </a>
       </div>
 
-      <div
-        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-        style={{ perspective: "1800px" }}
-      >
-        {ROUTES.map((r, i) => (
-          <RouteCard key={r.from + r.to} route={r} index={i} />
+      <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {ROUTES.map((r) => (
+          <li key={r.from + r.to}>
+            <article className="group flex h-full flex-col justify-between rounded-2xl border border-border bg-card p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-foreground/30 hover:shadow-card">
+              <div>
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span>{r.airline}</span>
+                  <span>{r.dur}</span>
+                </div>
+                <div className="mt-4 flex items-center gap-3">
+                  <span className="font-display text-3xl tracking-tight">{r.from}</span>
+                  <Plane className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+                  <span className="font-display text-3xl tracking-tight">{r.to}</span>
+                </div>
+                <p className="mt-1 text-sm text-muted-foreground">{r.label}</p>
+              </div>
+              <div className="mt-6 flex items-end justify-between border-t border-border pt-4">
+                <div>
+                  <p className="text-xs text-muted-foreground">Desde</p>
+                  <p className="font-display text-2xl tracking-tight">{r.price}</p>
+                </div>
+                <Button variant="ghost" size="sm" className="gap-1">
+                  Reservar
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Button>
+              </div>
+            </article>
+          </li>
         ))}
+      </ul>
+    </section>
+  );
+}
+
+function Features() {
+  return (
+    <section id="ventajas" className="border-y border-border bg-muted/40">
+      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+        <div className="max-w-xl">
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Por qué VuelosDk</p>
+          <h2 className="mt-2 font-display text-4xl tracking-tight sm:text-5xl">
+            Vuelos sin sorpresas, reservas sin fricciones
+          </h2>
+        </div>
+        <ul className="mt-12 grid gap-8 md:grid-cols-3">
+          {FEATURES.map(({ icon: Icon, title, desc }) => (
+            <li key={title} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-foreground text-background">
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <h3 className="mt-5 font-display text-2xl tracking-tight">{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
 }
 
-function RouteCard({
-  route,
-  index,
-}: {
-  route: (typeof ROUTES)[number];
-  index: number;
-}) {
-  const tilt = [-4, 3, -2, 5][index % 4];
+function CTA() {
   return (
-    <article
-      className="glass group relative overflow-hidden rounded-3xl p-6 transition-all duration-500 hover:-translate-y-3 hover:rotate-0 animate-rise preserve-3d"
-      style={{
-        transform: `rotateY(${tilt}deg) rotateX(${index % 2 === 0 ? 6 : -4}deg) translateZ(${index * 6}px)`,
-        transformStyle: "preserve-3d",
-        animationDelay: `${index * 0.1}s`,
-      }}
-    >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-50 blur-3xl transition-opacity group-hover:opacity-90"
-        style={{ background: "var(--gradient-primary)" }}
-      />
-
-      <div className="flex items-center justify-between" style={{ transform: "translateZ(20px)" }}>
-        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          {route.dur}
-        </div>
-        <div className="font-display text-2xl font-bold text-gradient">{route.price}</div>
-      </div>
-
-      <div className="mt-6 flex items-center gap-3" style={{ transform: "translateZ(30px)" }}>
-        <span className="font-display text-3xl font-extrabold">{route.from}</span>
-        <svg viewBox="0 0 40 12" className="h-3 flex-1 text-primary/60">
-          <path
-            d="M0 6 H36 M30 1 L36 6 L30 11"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-          />
-        </svg>
-        <span className="font-display text-3xl font-extrabold">{route.to}</span>
-      </div>
-
-      <div className="mt-2 text-sm text-muted-foreground">{route.label}</div>
-
-      <button
-        className="mt-6 w-full rounded-xl border border-border bg-white/50 py-2.5 text-sm font-medium transition group-hover:border-primary/60 group-hover:bg-white/80 group-hover:shadow-3d"
-        style={{ transform: "translateZ(15px)" }}
-      >
-        Reservar vuelo
-      </button>
-    </article>
-  );
-}
-
-function Experience3D() {
-  const items = [
-    { t: "Cabina", d: "Vista previa 3D del asiento antes de reservar." },
-    { t: "Ruta", d: "Trayectorias esféricas con altitud y clima real." },
-    { t: "Tarifa", d: "Capas transparentes: base, tasas y equipaje." },
-  ];
-  return (
-    <section className="relative z-10 mx-auto max-w-7xl px-6 pb-32">
-      <div className="mb-10">
-        <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-          // experiencia
-        </div>
-        <h2 className="mt-2 font-display text-4xl font-bold sm:text-5xl">
-          Tres dimensiones, <span className="text-gradient">cero fricción</span>
+    <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+      <div className="rounded-3xl border border-border bg-foreground px-6 py-14 text-center text-background sm:px-12">
+        <h2 className="mx-auto max-w-2xl text-balance font-display text-4xl leading-tight tracking-tight sm:text-5xl">
+          Tu próximo destino está a un clic de distancia.
         </h2>
-      </div>
-      <div className="grid gap-8 md:grid-cols-3" style={{ perspective: "1600px" }}>
-        {items.map((it, i) => (
-          <div
-            key={it.t}
-            className="glass rounded-3xl p-8 preserve-3d animate-rise"
-            style={{
-              transform: `rotateX(${i === 1 ? 0 : i === 0 ? 8 : -8}deg) rotateY(${i === 1 ? 0 : i === 0 ? -6 : 6}deg)`,
-              animationDelay: `${i * 0.12}s`,
-            }}
-          >
-            <div
-              className="mb-6 grid h-14 w-14 place-items-center rounded-2xl shadow-3d"
-              style={{
-                background: "linear-gradient(145deg, oklch(0.98 0.006 85), oklch(0.86 0.03 165))",
-                transform: "translateZ(30px)",
-              }}
-            >
-              <span className="font-display text-lg font-bold">0{i + 1}</span>
-            </div>
-            <h3 className="font-display text-2xl font-bold" style={{ transform: "translateZ(20px)" }}>
-              {it.t}
-            </h3>
-            <p className="mt-3 text-muted-foreground" style={{ transform: "translateZ(10px)" }}>
-              {it.d}
-            </p>
-          </div>
-        ))}
+        <p className="mx-auto mt-4 max-w-lg text-pretty text-sm text-background/70 sm:text-base">
+          Crea una cuenta y guarda tus rutas favoritas, recibe alertas de precio y reserva más rápido.
+        </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Button size="lg" variant="secondary" className="min-h-12">
+            Crear cuenta gratis
+          </Button>
+          <Button size="lg" variant="outline" className="min-h-12 border-background/30 bg-transparent text-background hover:bg-background/10 hover:text-background">
+            Iniciar sesión
+          </Button>
+        </div>
       </div>
     </section>
   );
 }
 
-function Footer() {
+function SiteFooter() {
   return (
-    <footer className="relative z-10 border-t border-border">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
-        <div className="font-mono text-xs uppercase tracking-widest">
-          © 2026 VuelosDk — 40.4168°N, 3.7038°W
+    <footer id="ayuda" className="border-t border-border">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-4">
+        <div className="md:col-span-2">
+          <div className="flex items-center gap-2">
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-foreground text-background">
+              <Plane className="h-4 w-4" aria-hidden="true" />
+            </span>
+            <span className="font-display text-lg">VuelosDk</span>
+          </div>
+          <p className="mt-3 max-w-sm text-sm text-muted-foreground">
+            Plataforma de reservas de vuelos con las mejores tarifas y una experiencia
+            diseñada para viajeros.
+          </p>
         </div>
-        <div className="flex gap-6">
-          <a href="#" className="hover:text-foreground">Privacidad</a>
-          <a href="#" className="hover:text-foreground">Términos</a>
-          <a href="#" className="hover:text-foreground">Contacto</a>
+        <FooterCol title="Empresa" links={["Sobre nosotros", "Prensa", "Trabaja con nosotros"]} />
+        <FooterCol title="Soporte" links={["Centro de ayuda", "Contacto", "Términos y privacidad"]} />
+      </div>
+      <div className="border-t border-border">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-6 text-xs text-muted-foreground sm:flex-row sm:px-6">
+          <p>© {new Date().getFullYear()} VuelosDk. Todos los derechos reservados.</p>
+          <p>Hecho con cuidado para viajeros.</p>
         </div>
       </div>
     </footer>
   );
 }
 
-type Airline = {
-  name: string;
-  code: string;
-  primary: string;
-  accent: string;
-};
-
-function OrbitPlane({ airline }: { airline: Airline }) {
+function FooterCol({ title, links }: { title: string; links: string[] }) {
   return (
-    <div className="preserve-3d" style={{ filter: "drop-shadow(0 12px 10px oklch(0.24 0.015 250 / 0.28))" }}>
-      <svg viewBox="0 0 160 160" width="150" height="150" style={{ overflow: "visible" }}>
-        <defs>
-          <linearGradient id={`body-${airline.code}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="oklch(0.99 0.005 85)" />
-            <stop offset="55%" stopColor="oklch(0.94 0.008 85)" />
-            <stop offset="100%" stopColor={airline.primary} />
-          </linearGradient>
-          <linearGradient id={`wing-${airline.code}`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor={airline.accent} />
-            <stop offset="100%" stopColor={airline.primary} />
-          </linearGradient>
-          <radialGradient id={`eng-${airline.code}`} cx="0.3" cy="0.3">
-            <stop offset="0%" stopColor="oklch(0.98 0.005 85)" />
-            <stop offset="100%" stopColor="oklch(0.25 0.02 250)" />
-          </radialGradient>
-        </defs>
-        {/* Nose points up (-Y) so orbit rotation makes plane tangent */}
-        {/* Wings */}
-        <path
-          d="M80 74 L28 108 L28 122 L80 110 L132 122 L132 108 Z"
-          fill={`url(#wing-${airline.code})`}
-          stroke="oklch(0.24 0.015 250 / 0.25)"
-          strokeWidth="0.6"
-        />
-        {/* Tail wings */}
-        <path
-          d="M80 124 L56 146 L56 152 L80 146 L104 152 L104 146 Z"
-          fill={`url(#wing-${airline.code})`}
-          opacity="0.85"
-        />
-        {/* Fuselage */}
-        <path
-          d="M80 22 Q 92 44 92 90 L92 138 Q 88 148 80 150 Q 72 148 68 138 L68 90 Q 68 44 80 22 Z"
-          fill={`url(#body-${airline.code})`}
-          stroke="oklch(0.24 0.015 250 / 0.25)"
-          strokeWidth="0.8"
-        />
-        {/* Cockpit */}
-        <path d="M80 24 Q 88 40 88 52 L72 52 Q 72 40 80 24 Z" fill="oklch(0.32 0.03 250)" opacity="0.85" />
-        {/* Windows row */}
-        {Array.from({ length: 7 }).map((_, i) => (
-          <circle key={i} cx={80} cy={62 + i * 10} r={1.6} fill={airline.primary} opacity="0.8" />
+    <div>
+      <h3 className="font-display text-sm uppercase tracking-widest text-muted-foreground">{title}</h3>
+      <ul className="mt-3 space-y-2 text-sm">
+        {links.map((l) => (
+          <li key={l}>
+            <a href="#" className="text-foreground/80 transition-colors hover:text-foreground">
+              {l}
+            </a>
+          </li>
         ))}
-        {/* Engines */}
-        <ellipse cx="52" cy="110" rx="6" ry="10" fill={`url(#eng-${airline.code})`} />
-        <ellipse cx="108" cy="110" rx="6" ry="10" fill={`url(#eng-${airline.code})`} />
-        {/* Livery stripe */}
-        <path d="M70 92 L90 92 L90 130 L70 130 Z" fill={airline.accent} opacity="0.35" />
-        {/* Airline code */}
-        <text
-          x="80"
-          y="108"
-          textAnchor="middle"
-          fontFamily="JetBrains Mono, monospace"
-          fontSize="9"
-          fontWeight="700"
-          fill="oklch(0.24 0.015 250)"
-        >
-          {airline.code}
-        </text>
-        {/* Highlight */}
-        <path d="M80 24 Q 74 60 74 100 L74 138 Q 76 148 80 150 Z" fill="oklch(1 0 0 / 0.35)" />
-      </svg>
-      <div
-        className="mx-auto -mt-4 w-max rounded-full bg-white/70 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-foreground shadow-3d"
-        style={{ transform: "translateZ(20px)" }}
-      >
-        {airline.name}
-      </div>
-    </div>
-  );
-}
-
-function Cloud({ style, scale = 1 }: { style?: React.CSSProperties; scale?: number }) {
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute left-0 animate-cloud"
-      style={{ ...style, transform: `scale(${scale})` }}
-    >
-      <div
-        className="preserve-3d"
-        style={{ transform: "rotateX(60deg) rotateZ(-8deg)", filter: "blur(2px)" }}
-      >
-        <svg width="220" height="90" viewBox="0 0 220 90">
-          <defs>
-            <radialGradient id="cg" cx="0.4" cy="0.35">
-              <stop offset="0%" stopColor="oklch(1 0 0 / 0.95)" />
-              <stop offset="100%" stopColor="oklch(0.9 0.01 250 / 0.15)" />
-            </radialGradient>
-          </defs>
-          <ellipse cx="60" cy="55" rx="55" ry="28" fill="url(#cg)" />
-          <ellipse cx="120" cy="45" rx="60" ry="32" fill="url(#cg)" />
-          <ellipse cx="170" cy="60" rx="45" ry="24" fill="url(#cg)" />
-        </svg>
-      </div>
-    </div>
-  );
-}
-
-function Compass() {
-  return (
-    <div
-      className="glass grid place-items-center rounded-full p-3 shadow-3d preserve-3d"
-      style={{ width: 88, height: 88 }}
-    >
-      <div className="relative h-full w-full">
-        <div className="absolute inset-0 rounded-full border border-foreground/15" />
-        <div className="absolute inset-2 rounded-full border border-foreground/10" />
-        <div className="absolute inset-0 grid place-items-center font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
-          <span className="absolute top-0.5">N</span>
-          <span className="absolute bottom-0.5">S</span>
-          <span className="absolute left-1">O</span>
-          <span className="absolute right-1">E</span>
-        </div>
-        <div className="absolute inset-0 animate-spin-slow">
-          <div
-            className="absolute left-1/2 top-0 h-1/2 w-1 -translate-x-1/2 origin-bottom rounded-full"
-            style={{ background: "linear-gradient(180deg, oklch(0.55 0.18 30), oklch(0.24 0.015 250))" }}
-          />
-        </div>
-        <div className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground" />
-      </div>
-    </div>
-  );
-}
-
-function BoardingTicket() {
-  return (
-    <div
-      className="preserve-3d rounded-2xl"
-      style={{
-        transform: "rotateX(12deg) rotateY(-16deg)",
-        filter: "drop-shadow(0 24px 30px oklch(0.24 0.015 250 / 0.25))",
-      }}
-    >
-      <div
-        className="flex overflow-hidden rounded-2xl border border-white/70"
-        style={{ background: "linear-gradient(145deg, oklch(0.99 0.005 85), oklch(0.92 0.01 250))" }}
-      >
-        <div className="p-4">
-          <div className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">Boarding pass</div>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span className="font-display text-2xl font-extrabold">MEX</span>
-            <span className="text-muted-foreground">→</span>
-            <span className="font-display text-2xl font-extrabold">CUN</span>
-          </div>
-          <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-            VD 2210 · 07:45 · GATE B12
-          </div>
-        </div>
-        <div className="grid w-14 place-items-center border-l border-dashed border-foreground/20 bg-white/40">
-          <div className="rotate-90 font-mono text-[9px] tracking-[0.3em] text-muted-foreground">VUELOSDK</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function LuggageTag() {
-  return (
-    <div
-      className="preserve-3d"
-      style={{
-        transform: "rotateX(8deg) rotateY(14deg)",
-        filter: "drop-shadow(0 20px 24px oklch(0.24 0.015 250 / 0.28))",
-      }}
-    >
-      <div className="relative h-24 w-16 rounded-xl border border-white/70" style={{ background: "linear-gradient(145deg, oklch(0.72 0.045 165), oklch(0.55 0.04 250))" }}>
-        <div className="absolute left-1/2 top-1 h-2 w-2 -translate-x-1/2 rounded-full bg-foreground/40" />
-        <div className="mt-5 px-2 text-center text-primary-foreground">
-          <div className="font-mono text-[8px] uppercase tracking-widest opacity-80">Tag</div>
-          <div className="font-display text-lg font-extrabold leading-none">DK</div>
-          <div className="mt-2 font-mono text-[8px] tracking-widest opacity-80">23KG</div>
-        </div>
-      </div>
+      </ul>
     </div>
   );
 }
