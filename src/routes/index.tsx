@@ -158,9 +158,9 @@ function Field({ label, value }: { label: string; value: string }) {
 
 function PlaneStage() {
   const airlines = [
-    { name: "Aeroméxico", color: "oklch(0.55 0.04 250)", delay: "0s", dur: "34s", r: 360 },
-    { name: "Viva Aerobus", color: "oklch(0.68 0.14 55)", delay: "-11s", dur: "34s", r: 360 },
-    { name: "Volaris", color: "oklch(0.7 0.12 320)", delay: "-22s", dur: "34s", r: 360 },
+    { name: "Aeroméxico",   code: "AM", primary: "oklch(0.42 0.08 255)", accent: "oklch(0.72 0.14 30)",  delay: "0s",   dur: "38s", r: 380 },
+    { name: "Viva Aerobus", code: "VB", primary: "oklch(0.72 0.16 55)",  accent: "oklch(0.55 0.18 30)",  delay: "-13s", dur: "38s", r: 380 },
+    { name: "Volaris",      code: "Y4", primary: "oklch(0.62 0.18 340)", accent: "oklch(0.78 0.14 100)", delay: "-26s", dur: "38s", r: 380 },
   ];
   const chips = [
     { t: "MEX", s: "México", top: "8%", left: "6%", d: "0s" },
@@ -174,6 +174,26 @@ function PlaneStage() {
       className="relative mx-auto mt-6 h-[560px] w-full max-w-[1100px] preserve-3d sm:h-[640px]"
       style={{ perspective: "1600px" }}
     >
+      {/* Drifting 3D clouds */}
+      <Cloud style={{ top: "12%", "--dur": "70s" } as React.CSSProperties} scale={1.1} />
+      <Cloud style={{ top: "42%", "--dur": "95s", animationDelay: "-30s" } as React.CSSProperties} scale={0.75} />
+      <Cloud style={{ top: "68%", "--dur": "110s", animationDelay: "-60s" } as React.CSSProperties} scale={1.35} />
+
+      {/* Compass HUD */}
+      <div className="absolute right-4 top-4 preserve-3d" style={{ transform: "rotateX(14deg) rotateY(-18deg) translateZ(60px)" }}>
+        <Compass />
+      </div>
+
+      {/* Boarding ticket */}
+      <div className="absolute -left-2 bottom-24 preserve-3d animate-ticket" style={{ transformOrigin: "center" }}>
+        <BoardingTicket />
+      </div>
+
+      {/* Luggage tag */}
+      <div className="absolute right-6 bottom-10 preserve-3d animate-luggage">
+        <LuggageTag />
+      </div>
+
       {/* Soft orbital rings */}
       <div
         aria-hidden
@@ -212,12 +232,15 @@ function PlaneStage() {
         </h1>
       </div>
 
-      {/* Airline orbit layer */}
-      <div className="absolute left-1/2 top-1/2 h-0 w-0 preserve-3d" style={{ transform: "translate(-50%, -50%) rotateX(70deg)" }}>
-        {airlines.map((a, i) => (
+      {/* Airline orbit layer — mini 3D planes flying horizontally around the ring */}
+      <div
+        className="absolute left-1/2 top-1/2 h-0 w-0 preserve-3d"
+        style={{ transform: "translate(-50%, -50%) rotateX(70deg) rotateZ(-8deg)" }}
+      >
+        {airlines.map((a) => (
           <div
             key={a.name}
-            className="absolute left-0 top-0 animate-orbit"
+            className="absolute left-0 top-0 animate-orbit-plane preserve-3d"
             style={{
               // @ts-expect-error custom css vars
               "--r": `${a.r}px`,
@@ -225,20 +248,8 @@ function PlaneStage() {
               animationDelay: a.delay,
             }}
           >
-            <div
-              className="glass -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-4 py-2"
-              style={{ transform: "translate(-50%, -50%) rotateX(-70deg)" }}
-            >
-              <div className="flex items-center gap-2">
-                <span
-                  className="inline-block h-2.5 w-2.5 rounded-full"
-                  style={{ background: a.color, boxShadow: `0 0 12px ${a.color}` }}
-                />
-                <span className="font-display text-sm font-bold">{a.name}</span>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                  · vuelo {i + 1}
-                </span>
-              </div>
+            <div className="-translate-x-1/2 -translate-y-1/2 preserve-3d">
+              <OrbitPlane airline={a} />
             </div>
           </div>
         ))}
