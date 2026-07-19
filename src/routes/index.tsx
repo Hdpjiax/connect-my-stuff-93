@@ -83,42 +83,34 @@ function Nav() {
 
 function Hero() {
   return (
-    <section className="relative z-10 mx-auto grid max-w-7xl gap-12 px-6 pt-8 pb-24 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:pt-16">
-      <div className="animate-rise">
-        <span className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-white/50 px-3 py-1 text-xs uppercase tracking-widest text-muted-foreground shadow-3d">
+    <section className="relative z-10 mx-auto max-w-7xl px-6 pt-4 pb-16 lg:pt-8">
+      <div className="flex flex-col items-center text-center animate-rise">
+        <span className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-white/60 px-3 py-1 text-xs uppercase tracking-widest text-muted-foreground shadow-3d">
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-twinkle" />
-          Motor 3D · v3.0
+          Bienvenido al aire · Motor 3D
         </span>
-        <h1
-          className="mt-6 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl xl:text-[7.5rem] preserve-3d"
-          style={{
-            transform: "perspective(1200px) rotateX(6deg) rotateY(-4deg)",
-            textShadow:
-              "0 2px 0 oklch(0.24 0.015 250 / 0.06), 0 12px 30px oklch(0.24 0.015 250 / 0.12)",
-          }}
-        >
-          Vuela
-          <br />
-          <span className="text-gradient">en 3D.</span>
-        </h1>
-        <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-          VuelosDk es un universo tridimensional donde cada ruta, tarifa y
-          horario cobra volumen. Explora el planeta con paletas suaves y
-          profundidad real antes de reservar.
-        </p>
-
-        <SearchPanel />
-
-        <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
-          <Stat value="2.4M" label="Rutas activas" />
-          <span className="h-6 w-px bg-border" />
-          <Stat value="180+" label="Aeropuertos" />
-          <span className="h-6 w-px bg-border" />
-          <Stat value="99.98%" label="Uptime" />
-        </div>
       </div>
 
-      <Globe3D />
+      <PlaneStage />
+
+      <div className="mx-auto mt-4 max-w-2xl text-center">
+        <p className="font-serif text-2xl leading-snug text-muted-foreground sm:text-3xl">
+          Un aeropuerto tridimensional. Rutas suspendidas, tarifas transparentes
+          y las aerolíneas de México orbitando tu próximo destino.
+        </p>
+      </div>
+
+      <div className="mx-auto mt-10 max-w-4xl">
+        <SearchPanel />
+      </div>
+
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+        <Stat value="2.4M" label="Rutas activas" />
+        <span className="h-6 w-px bg-border" />
+        <Stat value="180+" label="Aeropuertos" />
+        <span className="h-6 w-px bg-border" />
+        <Stat value="99.98%" label="Puntualidad" />
+      </div>
     </section>
   );
 }
@@ -164,7 +156,248 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
-function Globe3D() {
+function PlaneStage() {
+  const airlines = [
+    { name: "Aeroméxico", color: "oklch(0.55 0.04 250)", delay: "0s", dur: "34s", r: 360 },
+    { name: "Viva Aerobus", color: "oklch(0.68 0.14 55)", delay: "-11s", dur: "34s", r: 360 },
+    { name: "Volaris", color: "oklch(0.7 0.12 320)", delay: "-22s", dur: "34s", r: 360 },
+  ];
+  const chips = [
+    { t: "MEX", s: "México", top: "8%", left: "6%", d: "0s" },
+    { t: "CUN", s: "Cancún", top: "18%", right: "6%", d: "0.6s" },
+    { t: "GDL", s: "Guadalajara", bottom: "22%", left: "4%", d: "1.2s" },
+    { t: "MTY", s: "Monterrey", bottom: "12%", right: "8%", d: "1.8s" },
+  ] as const;
+
+  return (
+    <div
+      className="relative mx-auto mt-6 h-[560px] w-full max-w-[1100px] preserve-3d sm:h-[640px]"
+      style={{ perspective: "1600px" }}
+    >
+      {/* Soft orbital rings */}
+      <div
+        aria-hidden
+        className="absolute inset-x-10 top-1/2 aspect-[2/1] -translate-y-1/2 rounded-full border border-foreground/10"
+        style={{ transform: "translateY(-50%) rotateX(72deg)" }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-20 top-1/2 aspect-[2/1] -translate-y-1/2 rounded-full border border-foreground/15"
+        style={{ transform: "translateY(-50%) rotateX(72deg) rotateZ(20deg)" }}
+      />
+
+      {/* Giant 3D VUELOS DK title behind plane */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-6 flex justify-center preserve-3d"
+        style={{ transform: "translateZ(-120px)" }}
+      >
+        <h1
+          className="font-display font-extrabold uppercase leading-[0.82] tracking-[-0.06em] text-3d"
+          style={{
+            fontSize: "clamp(5rem, 16vw, 15rem)",
+            transform: "perspective(1400px) rotateX(18deg) rotateY(-6deg)",
+            background:
+              "linear-gradient(180deg, oklch(0.42 0.03 250) 0%, oklch(0.72 0.045 165) 60%, oklch(0.9 0.02 60 / 0.4) 100%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            color: "transparent",
+          }}
+        >
+          Vuelos
+          <br />
+          <span className="font-serif italic" style={{ letterSpacing: "-0.03em" }}>
+            Dk
+          </span>
+        </h1>
+      </div>
+
+      {/* Airline orbit layer */}
+      <div className="absolute left-1/2 top-1/2 h-0 w-0 preserve-3d" style={{ transform: "translate(-50%, -50%) rotateX(70deg)" }}>
+        {airlines.map((a, i) => (
+          <div
+            key={a.name}
+            className="absolute left-0 top-0 animate-orbit"
+            style={{
+              // @ts-expect-error custom css vars
+              "--r": `${a.r}px`,
+              "--dur": a.dur,
+              animationDelay: a.delay,
+            }}
+          >
+            <div
+              className="glass -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full px-4 py-2"
+              style={{ transform: "translate(-50%, -50%) rotateX(-70deg)" }}
+            >
+              <div className="flex items-center gap-2">
+                <span
+                  className="inline-block h-2.5 w-2.5 rounded-full"
+                  style={{ background: a.color, boxShadow: `0 0 12px ${a.color}` }}
+                />
+                <span className="font-display text-sm font-bold">{a.name}</span>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                  · vuelo {i + 1}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Airport chips floating in 3D */}
+      {chips.map((c) => (
+        <FloatingChip key={c.t} chip={c} />
+      ))}
+
+      {/* Central giant plane */}
+      <div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 preserve-3d animate-plane-hover"
+        style={{ width: "min(90%, 900px)" }}
+      >
+        <BigPlane />
+      </div>
+
+      {/* Ground shadow */}
+      <div
+        aria-hidden
+        className="absolute bottom-8 left-1/2 h-8 w-[70%] -translate-x-1/2 rounded-[50%] blur-2xl"
+        style={{ background: "oklch(0.24 0.015 250 / 0.28)" }}
+      />
+    </div>
+  );
+}
+
+function BigPlane() {
+  return (
+    <svg
+      viewBox="0 0 900 380"
+      className="h-auto w-full drop-shadow-[0_40px_60px_oklch(0.24_0.015_250/0.25)]"
+    >
+      <defs>
+        <linearGradient id="fuselage" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="oklch(0.99 0.005 85)" />
+          <stop offset="55%" stopColor="oklch(0.92 0.008 85)" />
+          <stop offset="100%" stopColor="oklch(0.72 0.02 250)" />
+        </linearGradient>
+        <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="oklch(0.86 0.02 165)" />
+          <stop offset="100%" stopColor="oklch(0.55 0.04 250)" />
+        </linearGradient>
+        <linearGradient id="stripe" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="oklch(0.72 0.045 165)" />
+          <stop offset="100%" stopColor="oklch(0.55 0.04 250)" />
+        </linearGradient>
+        <radialGradient id="engine" cx="0.3" cy="0.3">
+          <stop offset="0%" stopColor="oklch(0.98 0.005 85)" />
+          <stop offset="100%" stopColor="oklch(0.35 0.02 250)" />
+        </radialGradient>
+      </defs>
+
+      {/* Contrail */}
+      <g className="animate-contrail">
+        <rect x="20" y="182" width="180" height="10" rx="5" fill="oklch(1 0 0 / 0.7)" />
+        <rect x="60" y="196" width="120" height="6" rx="3" fill="oklch(1 0 0 / 0.4)" />
+      </g>
+
+      {/* Back wing */}
+      <path d="M540 170 L720 90 L780 100 L640 200 Z" fill="url(#wing)" opacity="0.75" />
+      {/* Tail */}
+      <path d="M660 190 L780 60 L820 70 L740 200 Z" fill="url(#wing)" />
+      <path d="M730 130 L800 80 L810 85 L760 140 Z" fill="oklch(0.42 0.03 250)" opacity="0.6" />
+
+      {/* Fuselage */}
+      <path
+        d="M100 190 Q 220 150 480 155 L780 175 Q 820 190 780 205 L480 225 Q 220 230 100 190 Z"
+        fill="url(#fuselage)"
+        stroke="oklch(0.24 0.015 250 / 0.15)"
+        strokeWidth="1"
+      />
+
+      {/* Cockpit windows */}
+      <path d="M120 188 Q 140 178 175 178 L175 195 Q 145 195 120 192 Z" fill="oklch(0.35 0.03 250)" />
+      {/* Passenger windows */}
+      {Array.from({ length: 18 }).map((_, i) => (
+        <circle
+          key={i}
+          cx={210 + i * 26}
+          cy={188}
+          r={3.2}
+          fill="oklch(0.55 0.04 250)"
+          opacity="0.85"
+        />
+      ))}
+
+      {/* Stripe */}
+      <path
+        d="M110 205 Q 260 218 780 205 L780 213 Q 260 226 110 213 Z"
+        fill="url(#stripe)"
+        opacity="0.7"
+      />
+
+      {/* Front wing */}
+      <path d="M360 210 L260 320 L420 315 L510 230 Z" fill="url(#wing)" />
+      <path d="M360 210 L340 320 L420 315 Z" fill="oklch(0.42 0.03 250)" opacity="0.35" />
+
+      {/* Engine */}
+      <ellipse cx="360" cy="270" rx="42" ry="18" fill="url(#engine)" />
+      <ellipse cx="345" cy="270" rx="10" ry="12" fill="oklch(0.15 0.015 250)" />
+
+      {/* Nose highlight */}
+      <path
+        d="M100 190 Q 130 175 175 178 Q 140 190 175 202 Q 130 205 100 190 Z"
+        fill="oklch(1 0 0 / 0.35)"
+      />
+
+      {/* Livery text */}
+      <text
+        x="360"
+        y="192"
+        fontFamily="Bricolage Grotesque, sans-serif"
+        fontSize="20"
+        fontWeight="800"
+        fill="oklch(0.24 0.015 250)"
+        letterSpacing="1"
+      >
+        VUELOS DK
+      </text>
+    </svg>
+  );
+}
+
+function FloatingChip({
+  chip,
+}: {
+  chip: {
+    t: string;
+    s: string;
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+    d: string;
+  };
+}) {
+  return (
+    <div
+      className="glass absolute rounded-2xl px-3 py-2 animate-float3d preserve-3d"
+      style={{
+        top: chip.top,
+        bottom: chip.bottom,
+        left: chip.left,
+        right: chip.right,
+        animationDelay: chip.d,
+        transform: "translateZ(40px)",
+      }}
+    >
+      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+        {chip.s}
+      </div>
+      <div className="font-display text-lg font-bold">{chip.t}</div>
+    </div>
+  );
+}
+
+function _UnusedGlobe3D() {
   return (
     <div
       className="relative mx-auto aspect-square w-full max-w-[520px] preserve-3d"
