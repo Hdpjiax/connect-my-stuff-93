@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   Calendar,
@@ -298,8 +298,23 @@ function SiteFooter() {
             diseñada para viajeros.
           </p>
         </div>
-        <FooterCol title="Empresa" links={["Sobre nosotros", "Prensa", "Trabaja con nosotros"]} />
-        <FooterCol title="Soporte" links={["Centro de ayuda", "Contacto", "Términos y privacidad"]} />
+        <FooterCol
+          title="Empresa"
+          links={[
+            { label: "Sobre nosotros", href: "#" },
+            { label: "Prensa", href: "#" },
+            { label: "Trabaja con nosotros", href: "#" },
+          ]}
+        />
+        <FooterCol
+          title="Legal"
+          links={[
+            { label: "Aviso legal", to: "/legal" },
+            { label: "Privacidad", to: "/privacy" },
+            { label: "Términos y condiciones", to: "/terms" },
+            { label: "Cookies", to: "/cookies" },
+          ]}
+        />
       </div>
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-6 text-xs text-muted-foreground sm:flex-row sm:px-6">
@@ -311,16 +326,26 @@ function SiteFooter() {
   );
 }
 
-function FooterCol({ title, links }: { title: string; links: string[] }) {
+type FooterLink =
+  | { label: string; href: string; to?: undefined }
+  | { label: string; to: "/legal" | "/privacy" | "/terms" | "/cookies"; href?: undefined };
+
+function FooterCol({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <div>
       <h3 className="font-display text-sm uppercase tracking-widest text-muted-foreground">{title}</h3>
       <ul className="mt-3 space-y-2 text-sm">
         {links.map((l) => (
-          <li key={l}>
-            <a href="#" className="text-foreground/80 transition-colors hover:text-foreground">
-              {l}
-            </a>
+          <li key={l.label}>
+            {l.to ? (
+              <Link to={l.to} className="text-foreground/80 transition-colors hover:text-foreground">
+                {l.label}
+              </Link>
+            ) : (
+              <a href={l.href} className="text-foreground/80 transition-colors hover:text-foreground">
+                {l.label}
+              </a>
+            )}
           </li>
         ))}
       </ul>
