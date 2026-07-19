@@ -77,17 +77,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "VuelosDk — Universo 3D de vuelos" },
+      { title: "VuelosDk — Encuentra y reserva vuelos" },
       {
         name: "description",
         content:
-          "Reserva vuelos en un universo totalmente 3D. Rutas, precios y horarios con una interfaz espacial sutil y minimalista.",
+          "Compara y reserva vuelos con las principales aerolíneas. Rutas, precios y horarios en una interfaz elegante y minimalista.",
       },
       { name: "author", content: "VuelosDk" },
-      { property: "og:title", content: "VuelosDk — Universo 3D de vuelos" },
+      { property: "og:title", content: "VuelosDk — Encuentra y reserva vuelos" },
       {
         property: "og:description",
-        content: "Reserva vuelos en un universo totalmente 3D con estética minimalista.",
+        content: "Compara y reserva vuelos con una interfaz elegante y minimalista.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -102,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" } as any,
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
       },
     ],
   }),
@@ -114,7 +114,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <HeadContent />
       </head>
