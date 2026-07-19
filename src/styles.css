@@ -303,4 +303,34 @@
       5px 5px 0 oklch(0.24 0.015 250 / 0.04),
       8px 14px 30px oklch(0.24 0.015 250 / 0.2);
   }
+
+  @keyframes orbit-plane {
+    from { transform: rotate(0deg) translateX(var(--r, 340px)); }
+    to { transform: rotate(360deg) translateX(var(--r, 340px)); }
+  }
+  .animate-orbit-plane { animation: orbit-plane var(--dur, 34s) linear infinite; }
+
+  @keyframes cloud-drift {
+    0% { transform: translate3d(-20vw, 0, 0); }
+    100% { transform: translate3d(120vw, 0, 0); }
+  }
+  .animate-cloud { animation: cloud-drift var(--dur, 80s) linear infinite; }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .animate-spin-slow { animation: spin-slow 40s linear infinite; }
+
+  @keyframes ticket-float {
+    0%, 100% { transform: rotateX(12deg) rotateY(-16deg) translateY(0); }
+    50% { transform: rotateX(8deg) rotateY(-10deg) translateY(-14px); }
+  }
+  .animate-ticket { animation: ticket-float 7s ease-in-out infinite; }
+
+  @keyframes luggage-bob {
+    0%, 100% { transform: rotateX(6deg) rotateY(18deg) translateY(0); }
+    50% { transform: rotateX(10deg) rotateY(14deg) translateY(-10px); }
+  }
+  .animate-luggage { animation: luggage-bob 6s ease-in-out infinite; }
 }
