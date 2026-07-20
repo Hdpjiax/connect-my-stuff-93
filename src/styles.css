@@ -83,6 +83,48 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 }
 .anim-tilt { animation: tilt 10s ease-in-out infinite; }
 
+/* Earth planet */
+@keyframes earth-spin {
+  from { background-position: 0 0; }
+  to   { background-position: 400px 0; }
+}
+.earth {
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 30% 30%, oklch(0.9 0.02 220 / 0.85), transparent 45%),
+    radial-gradient(circle at 70% 75%, oklch(0.25 0.05 260 / 0.6), transparent 55%),
+    repeating-radial-gradient(circle at 40% 45%, oklch(0.55 0.09 155) 0 6px, transparent 6px 14px),
+    repeating-radial-gradient(circle at 65% 60%, oklch(0.6 0.09 150) 0 5px, transparent 5px 12px),
+    linear-gradient(180deg, oklch(0.42 0.11 235) 0%, oklch(0.32 0.10 240) 60%, oklch(0.22 0.08 250) 100%);
+  box-shadow:
+    inset -18px -22px 60px oklch(0.15 0.05 250 / 0.85),
+    inset 18px 22px 50px oklch(0.85 0.05 220 / 0.35),
+    0 30px 60px -20px oklch(0.20 0.08 250 / 0.55);
+  animation: earth-spin 60s linear infinite;
+  background-size: 400px 100%, 400px 100%, 400px 100%, 400px 100%, 100% 100%;
+}
+.earth-atmosphere {
+  position: absolute;
+  inset: -14px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, transparent 58%, oklch(0.75 0.11 230 / 0.35) 66%, transparent 78%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+/* Plane orbiting around */
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit-r, 180px)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--orbit-r, 180px)) rotate(-360deg); }
+}
+.anim-orbit { animation: orbit 14s linear infinite; }
+
+/* Contrail dashed circle */
+.contrail {
+  border-radius: 9999px;
+  border: 1px dashed oklch(0.45 0.006 250 / 0.35);
+}
+
 /* Paper card with layered depth */
 .card-3d {
   background: linear-gradient(180deg, oklch(1 0 0) 0%, var(--color-paper) 100%);
@@ -102,5 +144,5 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .anim-float-plane, .anim-drift, .anim-spin-slow, .anim-tilt { animation: none; }
+  .anim-float-plane, .anim-drift, .anim-spin-slow, .anim-tilt, .anim-orbit, .earth { animation: none; }
 }
