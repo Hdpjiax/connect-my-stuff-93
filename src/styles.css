@@ -87,22 +87,17 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .scene-3d { perspective: 1400px; perspective-origin: 50% 45%; }
 .stage-3d { transform-style: preserve-3d; transform: rotateX(14deg); }
 
-/* Earth globe with real map texture */
-@keyframes earth-rotate {
-  from { background-position: 0 50%; }
-  to   { background-position: -1536px 50%; }
-}
+/* Earth globe with real map texture — transform + background-position driven by JS */
 .earth-globe {
-  transform: translate3d(-50%, -50%, 0);
   border-radius: 9999px;
   background-repeat: repeat-x;
   background-size: auto 100%;
-  animation: earth-rotate 80s linear infinite;
   box-shadow:
     inset -22px -28px 70px oklch(0.10 0.04 250 / 0.85),
     inset 20px 24px 60px oklch(0.90 0.03 220 / 0.28),
     0 40px 80px -30px oklch(0.16 0.06 250 / 0.55);
   position: absolute;
+  touch-action: none;
 }
 .earth-shade {
   position: absolute; inset: 0;
