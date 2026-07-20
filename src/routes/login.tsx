@@ -72,7 +72,9 @@ function LoginPage() {
 
   return (
     <main className="min-h-dvh bg-background">
-      <div className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6 py-16">
+      <div className="mx-auto grid min-h-dvh max-w-6xl gap-10 px-6 py-12 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-16 lg:py-16">
+        <LoginScene3D />
+        <div className="mx-auto w-full max-w-md">
         <Link
           to="/"
           className="mb-10 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground"
@@ -178,8 +180,50 @@ function LoginPage() {
         >
           {mode === "signin" ? "¿No tienes cuenta? Crear una" : "¿Ya tienes cuenta? Iniciar sesión"}
         </button>
+        </div>
       </div>
     </main>
+  );
+}
+
+function LoginScene3D() {
+  return (
+    <div className="relative hidden h-[520px] scene-3d lg:block" aria-hidden>
+      <div className="absolute inset-0 tf-3d anim-tilt">
+        <div
+          className="absolute left-1/2 top-1/2 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-border/70 anim-spin-slow"
+          style={{ transform: "translate(-50%,-50%) rotateX(70deg)" }}
+        >
+          <span className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-foreground" />
+          <span className="absolute top-1/2 -right-1.5 h-2 w-2 -translate-y-1/2 rounded-full bg-[color:var(--color-accent)]" />
+        </div>
+
+        <div
+          className="absolute left-1/2 top-1/2 flex h-40 w-40 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-3xl border border-border card-3d anim-float-plane"
+          style={{ transform: "translate(-50%,-50%) rotateX(8deg) rotateY(-16deg)" }}
+        >
+          <Plane className="h-16 w-16 -rotate-45 text-foreground" />
+        </div>
+
+        <div
+          className="absolute left-6 top-10 rounded-2xl border border-border card-3d px-4 py-3 anim-drift"
+          style={{ transform: "translateZ(60px) rotateY(-12deg)" }}
+        >
+          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Acceso seguro</p>
+          <p className="mt-1 font-display text-sm">Cifrado end-to-end</p>
+        </div>
+
+        <div
+          className="absolute bottom-10 right-6 rounded-2xl border border-border card-3d px-4 py-3 anim-drift"
+          style={{ transform: "translateZ(80px) rotateY(-16deg)", animationDelay: "-2s" }}
+        >
+          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Tu panel</p>
+          <p className="mt-1 font-display text-sm">Vuelos · Pagos · QR</p>
+        </div>
+
+        <div className="absolute left-1/2 top-[80%] h-6 w-56 -translate-x-1/2 rounded-full bg-foreground/20 blur-2xl" />
+      </div>
+    </div>
   );
 }
 
