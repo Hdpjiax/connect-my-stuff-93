@@ -109,39 +109,11 @@ function Hero() {
 
 function HeroScene3D() {
   return (
-    <div className="relative mx-auto h-[420px] w-full max-w-[520px] scene-3d sm:h-[480px]" aria-hidden>
-      <EarthScene size={320} orbit={200} />
-    </div>
-  );
-}
-
-function EarthScene({ size, orbit }: { size: number; orbit: number }) {
-  return (
-    <div className="relative h-full w-full">
-      {/* Contrail orbit */}
-      <div
-        className="contrail absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{ width: orbit * 2, height: orbit * 2 }}
-      />
-      {/* Earth */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: size, height: size }}>
-        <span className="earth-atmosphere" />
-        <div className="earth h-full w-full" />
-      </div>
-      {/* Orbiting plane */}
-      <div
-        className="absolute left-1/2 top-1/2 anim-orbit"
-        style={{ ["--orbit-r" as string]: `${orbit}px` }}
-      >
-        <div className="-translate-x-1/2 -translate-y-1/2">
-          <div className="rounded-full bg-background/80 p-2 shadow-lg backdrop-blur">
-            <Plane className="h-5 w-5 -rotate-45 text-foreground" />
-          </div>
-        </div>
-      </div>
-      {/* Ground shadow */}
-      <div className="absolute left-1/2 top-[85%] h-6 w-64 -translate-x-1/2 rounded-full bg-foreground/20 blur-2xl" />
-    </div>
+    <EarthScene
+      size={320}
+      orbit={210}
+      className="mx-auto h-[420px] w-full max-w-[520px] sm:h-[480px]"
+    />
   );
 }
 
