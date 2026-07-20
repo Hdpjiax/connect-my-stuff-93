@@ -19,31 +19,32 @@ export const Route = createRootRoute({
           "Encuentra y reserva vuelos con Aeroméxico, Viva Aerobus y Volaris. Búsqueda inteligente, precios claros y una experiencia editorial.",
       },
       { property: "og:title", content: "VuelosDk" },
-      {
-        property: "og:description",
-        content: "Vuelos con estilo, sin fricción.",
-      },
+      { property: "og:description", content: "Vuelos con estilo, sin fricción." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: styles },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossOrigin: "anonymous",
-      },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap",
       },
     ],
   }),
-  shellComponent: RootShell,
+  component: RootComponent,
 });
 
-function RootShell({ children }: { children: ReactNode }) {
+function RootComponent() {
+  return (
+    <RootDocument>
+      <Outlet />
+    </RootDocument>
+  );
+}
+
+function RootDocument({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
       <head>
@@ -55,9 +56,4 @@ function RootShell({ children }: { children: ReactNode }) {
       </body>
     </html>
   );
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _Root() {
-  return <Outlet />;
 }
