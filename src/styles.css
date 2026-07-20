@@ -133,7 +133,7 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 .orbit-plane {
   position: absolute;
   left: 0; top: 0;
-  transform: translateX(-50%) translateY(-50%) translateZ(var(--orbit-r, 210px)) rotateY(90deg);
+  transform: translateX(-50%) translateY(-50%) translateZ(var(--orbit-r, 210px));
   padding: 8px;
   border-radius: 9999px;
   background: oklch(1 0 0 / 0.85);
