@@ -43,9 +43,34 @@ export function DashboardShell({
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
+  const [unread, setUnread] = useState(0);
   const nav = role === "admin" ? ADMIN_NAV : USER_NAV;
 
   useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    let mounted = true;
+    async function fetchUnread() {
+      const { count } = await supabase
+        .from("notifications")
+        .select("id", { count: "exact", head: true })
+        .eq("read", false);
+      if (mounted) setUnread(count ?? 0);
+    }
+    fetchUnread();
+    const channel = supabase
+      .channel("notifications-badge")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "notifications" },
+        () => fetchUnread(),
+      )
+      .subscribe();
+    return () => {
+      mounted = false;
+      supabase.removeChannel(channel);
+    };
+  }, [pathname]);
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -114,6 +139,7 @@ export function DashboardShell({
             {nav.map((item) => {
               const active = isActive(item.to);
               const Icon = item.icon;
+              const showBadge = item.to === "/notificaciones" && unread > 0;
               return (
                 <Link
                   key={item.to}
@@ -125,7 +151,12 @@ export function DashboardShell({
                   }`}
                 >
                   <Icon className="h-4 w-4" />
-                  {item.label}
+                  <span className="flex-1">{item.label}</span>
+                  {showBadge && (
+                    <span className={`inline-flex min-w-[1.25rem] justify-center rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${active ? "bg-white text-neutral-900" : "bg-rose-600 text-white"}`}>
+                      {unread > 99 ? "99+" : unread}
+                    </span>
+                  )}
                 </Link>
               );
             })}
