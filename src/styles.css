@@ -129,11 +129,7 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
   position: absolute;
   left: 0; top: 0;
   transform: translateX(-50%) translateY(-50%) translateZ(var(--orbit-r, 210px));
-  padding: 8px;
-  border-radius: 9999px;
-  background: oklch(1 0 0 / 0.85);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 10px 24px -8px oklch(0.15 0.04 250 / 0.45);
+  filter: drop-shadow(0 10px 14px oklch(0.15 0.04 250 / 0.45));
 }
 .orbit-plane svg { transform: rotate(-45deg); }
 
