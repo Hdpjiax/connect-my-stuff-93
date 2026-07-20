@@ -12,7 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedVuelosRouteImport } from './routes/_authenticated/vuelos'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedNotificacionesRouteImport } from './routes/_authenticated/notificaciones'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedVuelosIndexRouteImport } from './routes/_authenticated/vuelos.index'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedVuelosNuevoRouteImport } from './routes/_authenticated/vuelos.nuevo'
+import { Route as AuthenticatedVuelosIdRouteImport } from './routes/_authenticated/vuelos.$id'
+import { Route as AuthenticatedAdminVuelosRouteImport } from './routes/_authenticated/admin.vuelos'
+import { Route as AuthenticatedAdminUsuariosRouteImport } from './routes/_authenticated/admin.usuarios'
+import { Route as AuthenticatedAdminCuentasRouteImport } from './routes/_authenticated/admin.cuentas'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -28,40 +39,169 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedVuelosRoute = AuthenticatedVuelosRouteImport.update({
+  id: '/vuelos',
+  path: '/vuelos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificacionesRoute =
+  AuthenticatedNotificacionesRouteImport.update({
+    id: '/notificaciones',
+    path: '/notificaciones',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedVuelosIndexRoute =
+  AuthenticatedVuelosIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedVuelosRoute,
+  } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedVuelosNuevoRoute =
+  AuthenticatedVuelosNuevoRouteImport.update({
+    id: '/nuevo',
+    path: '/nuevo',
+    getParentRoute: () => AuthenticatedVuelosRoute,
+  } as any)
+const AuthenticatedVuelosIdRoute = AuthenticatedVuelosIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedVuelosRoute,
+} as any)
+const AuthenticatedAdminVuelosRoute =
+  AuthenticatedAdminVuelosRouteImport.update({
+    id: '/vuelos',
+    path: '/vuelos',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminUsuariosRoute =
+  AuthenticatedAdminUsuariosRouteImport.update({
+    id: '/usuarios',
+    path: '/usuarios',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCuentasRoute =
+  AuthenticatedAdminCuentasRouteImport.update({
+    id: '/cuentas',
+    path: '/cuentas',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/vuelos': typeof AuthenticatedVuelosRouteWithChildren
+  '/admin/cuentas': typeof AuthenticatedAdminCuentasRoute
+  '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
+  '/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
+  '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
+  '/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/vuelos/': typeof AuthenticatedVuelosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/admin/cuentas': typeof AuthenticatedAdminCuentasRoute
+  '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
+  '/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
+  '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
+  '/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
+  '/vuelos': typeof AuthenticatedVuelosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/vuelos': typeof AuthenticatedVuelosRouteWithChildren
+  '/_authenticated/admin/cuentas': typeof AuthenticatedAdminCuentasRoute
+  '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
+  '/_authenticated/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
+  '/_authenticated/vuelos/$id': typeof AuthenticatedVuelosIdRoute
+  '/_authenticated/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/vuelos/': typeof AuthenticatedVuelosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/admin'
+    | '/dashboard'
+    | '/notificaciones'
+    | '/perfil'
+    | '/vuelos'
+    | '/admin/cuentas'
+    | '/admin/usuarios'
+    | '/admin/vuelos'
+    | '/vuelos/$id'
+    | '/vuelos/nuevo'
+    | '/admin/'
+    | '/vuelos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/dashboard'
+  to:
+    | '/'
+    | '/login'
+    | '/dashboard'
+    | '/notificaciones'
+    | '/perfil'
+    | '/admin/cuentas'
+    | '/admin/usuarios'
+    | '/admin/vuelos'
+    | '/vuelos/$id'
+    | '/vuelos/nuevo'
+    | '/admin'
+    | '/vuelos'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/login'
+    | '/_authenticated/admin'
     | '/_authenticated/dashboard'
+    | '/_authenticated/notificaciones'
+    | '/_authenticated/perfil'
+    | '/_authenticated/vuelos'
+    | '/_authenticated/admin/cuentas'
+    | '/_authenticated/admin/usuarios'
+    | '/_authenticated/admin/vuelos'
+    | '/_authenticated/vuelos/$id'
+    | '/_authenticated/vuelos/nuevo'
+    | '/_authenticated/admin/'
+    | '/_authenticated/vuelos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,6 +233,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/vuelos': {
+      id: '/_authenticated/vuelos'
+      path: '/vuelos'
+      fullPath: '/vuelos'
+      preLoaderRoute: typeof AuthenticatedVuelosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notificaciones': {
+      id: '/_authenticated/notificaciones'
+      path: '/notificaciones'
+      fullPath: '/notificaciones'
+      preLoaderRoute: typeof AuthenticatedNotificacionesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -100,15 +261,111 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/vuelos/': {
+      id: '/_authenticated/vuelos/'
+      path: '/'
+      fullPath: '/vuelos/'
+      preLoaderRoute: typeof AuthenticatedVuelosIndexRouteImport
+      parentRoute: typeof AuthenticatedVuelosRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/vuelos/nuevo': {
+      id: '/_authenticated/vuelos/nuevo'
+      path: '/nuevo'
+      fullPath: '/vuelos/nuevo'
+      preLoaderRoute: typeof AuthenticatedVuelosNuevoRouteImport
+      parentRoute: typeof AuthenticatedVuelosRoute
+    }
+    '/_authenticated/vuelos/$id': {
+      id: '/_authenticated/vuelos/$id'
+      path: '/$id'
+      fullPath: '/vuelos/$id'
+      preLoaderRoute: typeof AuthenticatedVuelosIdRouteImport
+      parentRoute: typeof AuthenticatedVuelosRoute
+    }
+    '/_authenticated/admin/vuelos': {
+      id: '/_authenticated/admin/vuelos'
+      path: '/vuelos'
+      fullPath: '/admin/vuelos'
+      preLoaderRoute: typeof AuthenticatedAdminVuelosRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/usuarios': {
+      id: '/_authenticated/admin/usuarios'
+      path: '/usuarios'
+      fullPath: '/admin/usuarios'
+      preLoaderRoute: typeof AuthenticatedAdminUsuariosRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/cuentas': {
+      id: '/_authenticated/admin/cuentas'
+      path: '/cuentas'
+      fullPath: '/admin/cuentas'
+      preLoaderRoute: typeof AuthenticatedAdminCuentasRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminCuentasRoute: typeof AuthenticatedAdminCuentasRoute
+  AuthenticatedAdminUsuariosRoute: typeof AuthenticatedAdminUsuariosRoute
+  AuthenticatedAdminVuelosRoute: typeof AuthenticatedAdminVuelosRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminCuentasRoute: AuthenticatedAdminCuentasRoute,
+  AuthenticatedAdminUsuariosRoute: AuthenticatedAdminUsuariosRoute,
+  AuthenticatedAdminVuelosRoute: AuthenticatedAdminVuelosRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedVuelosRouteChildren {
+  AuthenticatedVuelosIdRoute: typeof AuthenticatedVuelosIdRoute
+  AuthenticatedVuelosNuevoRoute: typeof AuthenticatedVuelosNuevoRoute
+  AuthenticatedVuelosIndexRoute: typeof AuthenticatedVuelosIndexRoute
+}
+
+const AuthenticatedVuelosRouteChildren: AuthenticatedVuelosRouteChildren = {
+  AuthenticatedVuelosIdRoute: AuthenticatedVuelosIdRoute,
+  AuthenticatedVuelosNuevoRoute: AuthenticatedVuelosNuevoRoute,
+  AuthenticatedVuelosIndexRoute: AuthenticatedVuelosIndexRoute,
+}
+
+const AuthenticatedVuelosRouteWithChildren =
+  AuthenticatedVuelosRoute._addFileChildren(AuthenticatedVuelosRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedNotificacionesRoute: typeof AuthenticatedNotificacionesRoute
+  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedVuelosRoute: typeof AuthenticatedVuelosRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedNotificacionesRoute: AuthenticatedNotificacionesRoute,
+  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedVuelosRoute: AuthenticatedVuelosRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
