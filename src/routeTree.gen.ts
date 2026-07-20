@@ -16,6 +16,7 @@ import { Route as AuthenticatedVuelosRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedVuelosIndexRouteImport } from './routes/_authenticated/vuelos.index'
 import { Route as AuthenticatedVuelosNuevoRouteImport } from './routes/_authenticated/vuelos.nuevo'
+import { Route as AuthenticatedVuelosIdRouteImport } from './routes/_authenticated/vuelos.$id'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -53,12 +54,18 @@ const AuthenticatedVuelosNuevoRoute =
     path: '/nuevo',
     getParentRoute: () => AuthenticatedVuelosRoute,
   } as any)
+const AuthenticatedVuelosIdRoute = AuthenticatedVuelosIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AuthenticatedVuelosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/vuelos': typeof AuthenticatedVuelosRouteWithChildren
+  '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
   '/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
   '/vuelos/': typeof AuthenticatedVuelosIndexRoute
 }
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
   '/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
   '/vuelos': typeof AuthenticatedVuelosIndexRoute
 }
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/vuelos': typeof AuthenticatedVuelosRouteWithChildren
+  '/_authenticated/vuelos/$id': typeof AuthenticatedVuelosIdRoute
   '/_authenticated/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
   '/_authenticated/vuelos/': typeof AuthenticatedVuelosIndexRoute
 }
@@ -86,10 +95,17 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard'
     | '/vuelos'
+    | '/vuelos/$id'
     | '/vuelos/nuevo'
     | '/vuelos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/dashboard' | '/vuelos/nuevo' | '/vuelos'
+  to:
+    | '/'
+    | '/login'
+    | '/dashboard'
+    | '/vuelos/$id'
+    | '/vuelos/nuevo'
+    | '/vuelos'
   id:
     | '__root__'
     | '/'
@@ -97,6 +113,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/_authenticated/dashboard'
     | '/_authenticated/vuelos'
+    | '/_authenticated/vuelos/$id'
     | '/_authenticated/vuelos/nuevo'
     | '/_authenticated/vuelos/'
   fileRoutesById: FileRoutesById
@@ -158,15 +175,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVuelosNuevoRouteImport
       parentRoute: typeof AuthenticatedVuelosRoute
     }
+    '/_authenticated/vuelos/$id': {
+      id: '/_authenticated/vuelos/$id'
+      path: '/$id'
+      fullPath: '/vuelos/$id'
+      preLoaderRoute: typeof AuthenticatedVuelosIdRouteImport
+      parentRoute: typeof AuthenticatedVuelosRoute
+    }
   }
 }
 
 interface AuthenticatedVuelosRouteChildren {
+  AuthenticatedVuelosIdRoute: typeof AuthenticatedVuelosIdRoute
   AuthenticatedVuelosNuevoRoute: typeof AuthenticatedVuelosNuevoRoute
   AuthenticatedVuelosIndexRoute: typeof AuthenticatedVuelosIndexRoute
 }
 
 const AuthenticatedVuelosRouteChildren: AuthenticatedVuelosRouteChildren = {
+  AuthenticatedVuelosIdRoute: AuthenticatedVuelosIdRoute,
   AuthenticatedVuelosNuevoRoute: AuthenticatedVuelosNuevoRoute,
   AuthenticatedVuelosIndexRoute: AuthenticatedVuelosIndexRoute,
 }
