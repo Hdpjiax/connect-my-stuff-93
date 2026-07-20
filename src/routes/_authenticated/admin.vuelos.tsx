@@ -28,7 +28,7 @@ function AdminFlights() {
   }, [filter]);
 
   async function updateStatus(id: string, status: string) {
-    await supabase.from("flights").update({ status }).eq("id", id);
+    await supabase.from("flights").update({ status: status as any }).eq("id", id);
     load();
   }
 

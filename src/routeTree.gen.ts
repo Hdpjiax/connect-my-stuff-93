@@ -19,6 +19,7 @@ import { Route as AuthenticatedVuelosIndexRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedVuelosNuevoRouteImport } from './routes/_authenticated/vuelos.nuevo'
 import { Route as AuthenticatedVuelosIdRouteImport } from './routes/_authenticated/vuelos.$id'
+import { Route as AuthenticatedAdminVuelosRouteImport } from './routes/_authenticated/admin.vuelos'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -71,6 +72,12 @@ const AuthenticatedVuelosIdRoute = AuthenticatedVuelosIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AuthenticatedVuelosRoute,
 } as any)
+const AuthenticatedAdminVuelosRoute =
+  AuthenticatedAdminVuelosRouteImport.update({
+    id: '/vuelos',
+    path: '/vuelos',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/vuelos': typeof AuthenticatedVuelosRouteWithChildren
+  '/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
   '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
   '/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -87,6 +95,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
   '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
   '/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -100,6 +109,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/vuelos': typeof AuthenticatedVuelosRouteWithChildren
+  '/_authenticated/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
   '/_authenticated/vuelos/$id': typeof AuthenticatedVuelosIdRoute
   '/_authenticated/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/vuelos'
+    | '/admin/vuelos'
     | '/vuelos/$id'
     | '/vuelos/nuevo'
     | '/admin/'
@@ -122,6 +133,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/dashboard'
+    | '/admin/vuelos'
     | '/vuelos/$id'
     | '/vuelos/nuevo'
     | '/admin'
@@ -134,6 +146,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/vuelos'
+    | '/_authenticated/admin/vuelos'
     | '/_authenticated/vuelos/$id'
     | '/_authenticated/vuelos/nuevo'
     | '/_authenticated/admin/'
@@ -218,14 +231,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVuelosIdRouteImport
       parentRoute: typeof AuthenticatedVuelosRoute
     }
+    '/_authenticated/admin/vuelos': {
+      id: '/_authenticated/admin/vuelos'
+      path: '/vuelos'
+      fullPath: '/admin/vuelos'
+      preLoaderRoute: typeof AuthenticatedAdminVuelosRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminVuelosRoute: typeof AuthenticatedAdminVuelosRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminVuelosRoute: AuthenticatedAdminVuelosRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
