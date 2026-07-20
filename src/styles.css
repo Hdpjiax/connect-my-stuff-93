@@ -54,3 +54,53 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee, .animate-shine { animation: none; }
 }
+
+/* ============ 3D scene primitives ============ */
+.scene-3d { perspective: 1400px; perspective-origin: 50% 40%; }
+.tf-3d { transform-style: preserve-3d; }
+
+@keyframes float-y {
+  0%, 100% { transform: translate3d(0, -8px, 0) rotateX(6deg) rotateY(-14deg); }
+  50%      { transform: translate3d(0,  8px, 0) rotateX(4deg) rotateY(-10deg); }
+}
+.anim-float-plane { animation: float-y 7s ease-in-out infinite; }
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -14px, 0); }
+}
+.anim-drift { animation: drift 9s ease-in-out infinite; }
+
+@keyframes spin-slow {
+  from { transform: rotateZ(0deg); }
+  to   { transform: rotateZ(360deg); }
+}
+.anim-spin-slow { animation: spin-slow 40s linear infinite; }
+
+@keyframes tilt {
+  0%, 100% { transform: rotateX(8deg) rotateY(-12deg); }
+  50%      { transform: rotateX(10deg) rotateY(-8deg); }
+}
+.anim-tilt { animation: tilt 10s ease-in-out infinite; }
+
+/* Paper card with layered depth */
+.card-3d {
+  background: linear-gradient(180deg, oklch(1 0 0) 0%, var(--color-paper) 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.6) inset,
+    0 20px 40px -20px rgba(20,20,30,0.25),
+    0 60px 80px -40px rgba(20,20,30,0.18);
+}
+
+/* Grid floor in perspective */
+.grid-floor {
+  background-image:
+    linear-gradient(to right, oklch(0.24 0.006 250 / 0.10) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.24 0.006 250 / 0.10) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at 50% 40%, black 40%, transparent 75%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-float-plane, .anim-drift, .anim-spin-slow, .anim-tilt { animation: none; }
+}
