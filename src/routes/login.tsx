@@ -189,39 +189,23 @@ function LoginPage() {
 function LoginScene3D() {
   return (
     <div className="relative hidden h-[520px] scene-3d lg:block" aria-hidden>
-      <div className="absolute inset-0 tf-3d anim-tilt">
-        <div
-          className="absolute left-1/2 top-1/2 h-[340px] w-[340px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-border/70 anim-spin-slow"
-          style={{ transform: "translate(-50%,-50%) rotateX(70deg)" }}
-        >
-          <span className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-foreground" />
-          <span className="absolute top-1/2 -right-1.5 h-2 w-2 -translate-y-1/2 rounded-full bg-[color:var(--color-accent)]" />
+      <div className="relative h-full w-full">
+        {/* Contrail orbit */}
+        <div className="contrail absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2" />
+        {/* Earth */}
+        <div className="absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2">
+          <span className="earth-atmosphere" />
+          <div className="earth h-full w-full" />
         </div>
-
-        <div
-          className="absolute left-1/2 top-1/2 flex h-40 w-40 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-3xl border border-border card-3d anim-float-plane"
-          style={{ transform: "translate(-50%,-50%) rotateX(8deg) rotateY(-16deg)" }}
-        >
-          <Plane className="h-16 w-16 -rotate-45 text-foreground" />
+        {/* Orbiting plane */}
+        <div className="absolute left-1/2 top-1/2 anim-orbit" style={{ ["--orbit-r" as string]: "210px" }}>
+          <div className="-translate-x-1/2 -translate-y-1/2">
+            <div className="rounded-full bg-background/80 p-2 shadow-lg backdrop-blur">
+              <Plane className="h-6 w-6 -rotate-45 text-foreground" />
+            </div>
+          </div>
         </div>
-
-        <div
-          className="absolute left-6 top-10 rounded-2xl border border-border card-3d px-4 py-3 anim-drift"
-          style={{ transform: "translateZ(60px) rotateY(-12deg)" }}
-        >
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Acceso seguro</p>
-          <p className="mt-1 font-display text-sm">Cifrado end-to-end</p>
-        </div>
-
-        <div
-          className="absolute bottom-10 right-6 rounded-2xl border border-border card-3d px-4 py-3 anim-drift"
-          style={{ transform: "translateZ(80px) rotateY(-16deg)", animationDelay: "-2s" }}
-        >
-          <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Tu panel</p>
-          <p className="mt-1 font-display text-sm">Vuelos · Pagos · QR</p>
-        </div>
-
-        <div className="absolute left-1/2 top-[80%] h-6 w-56 -translate-x-1/2 rounded-full bg-foreground/20 blur-2xl" />
+        <div className="absolute left-1/2 top-[86%] h-6 w-64 -translate-x-1/2 rounded-full bg-foreground/20 blur-2xl" />
       </div>
     </div>
   );

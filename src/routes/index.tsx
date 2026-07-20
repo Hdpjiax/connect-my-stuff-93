@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Plane, ShieldCheck, Sparkles, Globe2, Compass, Ticket } from "lucide-react";
+import { ArrowUpRight, Plane, ShieldCheck, Sparkles, Globe2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -110,71 +110,37 @@ function Hero() {
 function HeroScene3D() {
   return (
     <div className="relative mx-auto h-[420px] w-full max-w-[520px] scene-3d sm:h-[480px]" aria-hidden>
-      <div className="absolute inset-0 tf-3d anim-tilt">
-        {/* Orbit ring */}
-        <div className="absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-border/70 tf-3d anim-spin-slow" style={{ transform: "translate(-50%,-50%) rotateX(72deg)" }}>
-          <span className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-foreground" />
-          <span className="absolute top-1/2 -right-1.5 h-2 w-2 -translate-y-1/2 rounded-full bg-[color:var(--color-accent)]" />
-          <span className="absolute -bottom-1 left-1/4 h-2 w-2 rounded-full bg-muted-foreground" />
-        </div>
+      <EarthScene size={320} orbit={200} />
+    </div>
+  );
+}
 
-        {/* Boarding pass card */}
-        <div
-          className="absolute left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border card-3d p-5 anim-float-plane"
-          style={{ transform: "translate(-50%,-50%) rotateX(6deg) rotateY(-14deg)" }}
-        >
-          <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-            <span>Boarding · 06A</span>
-            <span>VDK · 2026</span>
-          </div>
-          <div className="mt-4 flex items-end justify-between gap-2">
-            <div>
-              <p className="font-display text-3xl font-semibold leading-none">MEX</p>
-              <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Ciudad de México</p>
-            </div>
-            <div className="flex-1 px-2">
-              <div className="relative h-6">
-                <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" />
-                <Plane className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 -rotate-45 text-foreground" />
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="font-display text-3xl font-semibold leading-none">CUN</p>
-              <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Cancún</p>
-            </div>
-          </div>
-          <div className="mt-5 grid grid-cols-3 gap-3 border-t border-border pt-4 text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-            <div><p>Vuelo</p><p className="mt-1 font-display text-sm text-foreground normal-case tracking-normal">VDK 204</p></div>
-            <div><p>Puerta</p><p className="mt-1 font-display text-sm text-foreground normal-case tracking-normal">B14</p></div>
-            <div><p>Hora</p><p className="mt-1 font-display text-sm text-foreground normal-case tracking-normal">07:40</p></div>
-          </div>
-        </div>
-
-        {/* Floating chip: compass */}
-        <div
-          className="absolute left-4 top-8 rounded-2xl border border-border card-3d px-4 py-3 anim-drift"
-          style={{ transform: "translateZ(60px) rotateY(-12deg)" }}
-        >
-          <div className="flex items-center gap-2">
-            <Compass className="h-4 w-4" />
-            <span className="text-xs font-medium">NE · 04°</span>
-          </div>
-        </div>
-
-        {/* Floating chip: ticket */}
-        <div
-          className="absolute bottom-6 right-4 rounded-2xl border border-border card-3d px-4 py-3 anim-drift"
-          style={{ transform: "translateZ(80px) rotateY(-16deg)", animationDelay: "-2s" }}
-        >
-          <div className="flex items-center gap-2">
-            <Ticket className="h-4 w-4 text-[color:var(--color-accent)]" />
-            <span className="text-xs font-medium">2 pax · Directo</span>
-          </div>
-        </div>
-
-        {/* Ground shadow */}
-        <div className="absolute left-1/2 top-[78%] h-6 w-64 -translate-x-1/2 rounded-full bg-foreground/20 blur-2xl" />
+function EarthScene({ size, orbit }: { size: number; orbit: number }) {
+  return (
+    <div className="relative h-full w-full">
+      {/* Contrail orbit */}
+      <div
+        className="contrail absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{ width: orbit * 2, height: orbit * 2 }}
+      />
+      {/* Earth */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: size, height: size }}>
+        <span className="earth-atmosphere" />
+        <div className="earth h-full w-full" />
       </div>
+      {/* Orbiting plane */}
+      <div
+        className="absolute left-1/2 top-1/2 anim-orbit"
+        style={{ ["--orbit-r" as string]: `${orbit}px` }}
+      >
+        <div className="-translate-x-1/2 -translate-y-1/2">
+          <div className="rounded-full bg-background/80 p-2 shadow-lg backdrop-blur">
+            <Plane className="h-5 w-5 -rotate-45 text-foreground" />
+          </div>
+        </div>
+      </div>
+      {/* Ground shadow */}
+      <div className="absolute left-1/2 top-[85%] h-6 w-64 -translate-x-1/2 rounded-full bg-foreground/20 blur-2xl" />
     </div>
   );
 }
