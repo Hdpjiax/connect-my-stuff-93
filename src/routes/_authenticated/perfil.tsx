@@ -32,11 +32,12 @@ function Profile() {
   async function save(e: FormEvent) {
     e.preventDefault();
     setMsg(null);
-    const { error } = await (supabase.rpc as any)("update_own_profile", {
-      p_full_name: fullName,
-      p_phone: phone,
-      p_company_name: company,
-    });
+    const { data: u } = await supabase.auth.getUser();
+    if (!u.user) return;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ full_name: fullName, phone, company_name: company })
+      .eq("id", u.user.id);
     setMsg(error ? error.message : "Perfil actualizado.");
   }
 

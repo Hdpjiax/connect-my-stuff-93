@@ -13,6 +13,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedVuelosRouteImport } from './routes/_authenticated/vuelos'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedNotificacionesRouteImport } from './routes/_authenticated/notificaciones'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -39,6 +40,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthenticatedVuelosRoute = AuthenticatedVuelosRouteImport.update({
   id: '/vuelos',
   path: '/vuelos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedNotificacionesRoute =
@@ -92,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
   '/vuelos': typeof AuthenticatedVuelosRouteWithChildren
   '/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
   '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
   '/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
   '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
   '/vuelos/nuevo': typeof AuthenticatedVuelosNuevoRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/vuelos': typeof AuthenticatedVuelosRouteWithChildren
   '/_authenticated/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
   '/_authenticated/vuelos/$id': typeof AuthenticatedVuelosIdRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/notificaciones'
+    | '/perfil'
     | '/vuelos'
     | '/admin/vuelos'
     | '/vuelos/$id'
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard'
     | '/notificaciones'
+    | '/perfil'
     | '/admin/vuelos'
     | '/vuelos/$id'
     | '/vuelos/nuevo'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/notificaciones'
+    | '/_authenticated/perfil'
     | '/_authenticated/vuelos'
     | '/_authenticated/admin/vuelos'
     | '/_authenticated/vuelos/$id'
@@ -200,6 +212,13 @@ declare module '@tanstack/react-router' {
       path: '/vuelos'
       fullPath: '/vuelos'
       preLoaderRoute: typeof AuthenticatedVuelosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/notificaciones': {
@@ -293,6 +312,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedNotificacionesRoute: typeof AuthenticatedNotificacionesRoute
+  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedVuelosRoute: typeof AuthenticatedVuelosRouteWithChildren
 }
 
@@ -300,6 +320,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedNotificacionesRoute: AuthenticatedNotificacionesRoute,
+  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedVuelosRoute: AuthenticatedVuelosRouteWithChildren,
 }
 
