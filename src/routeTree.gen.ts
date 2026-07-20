@@ -23,6 +23,7 @@ import { Route as AuthenticatedVuelosNuevoRouteImport } from './routes/_authenti
 import { Route as AuthenticatedVuelosIdRouteImport } from './routes/_authenticated/vuelos.$id'
 import { Route as AuthenticatedAdminVuelosRouteImport } from './routes/_authenticated/admin.vuelos'
 import { Route as AuthenticatedAdminUsuariosRouteImport } from './routes/_authenticated/admin.usuarios'
+import { Route as AuthenticatedAdminCuentasRouteImport } from './routes/_authenticated/admin.cuentas'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -98,6 +99,12 @@ const AuthenticatedAdminUsuariosRoute =
     path: '/usuarios',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminCuentasRoute =
+  AuthenticatedAdminCuentasRouteImport.update({
+    id: '/cuentas',
+    path: '/cuentas',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/vuelos': typeof AuthenticatedVuelosRouteWithChildren
+  '/admin/cuentas': typeof AuthenticatedAdminCuentasRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
   '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
@@ -120,6 +128,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/admin/cuentas': typeof AuthenticatedAdminCuentasRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
   '/vuelos/$id': typeof AuthenticatedVuelosIdRoute
@@ -137,6 +146,7 @@ export interface FileRoutesById {
   '/_authenticated/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/vuelos': typeof AuthenticatedVuelosRouteWithChildren
+  '/_authenticated/admin/cuentas': typeof AuthenticatedAdminCuentasRoute
   '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/_authenticated/admin/vuelos': typeof AuthenticatedAdminVuelosRoute
   '/_authenticated/vuelos/$id': typeof AuthenticatedVuelosIdRoute
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
     | '/notificaciones'
     | '/perfil'
     | '/vuelos'
+    | '/admin/cuentas'
     | '/admin/usuarios'
     | '/admin/vuelos'
     | '/vuelos/$id'
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/notificaciones'
     | '/perfil'
+    | '/admin/cuentas'
     | '/admin/usuarios'
     | '/admin/vuelos'
     | '/vuelos/$id'
@@ -183,6 +195,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notificaciones'
     | '/_authenticated/perfil'
     | '/_authenticated/vuelos'
+    | '/_authenticated/admin/cuentas'
     | '/_authenticated/admin/usuarios'
     | '/_authenticated/admin/vuelos'
     | '/_authenticated/vuelos/$id'
@@ -297,16 +310,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminUsuariosRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/cuentas': {
+      id: '/_authenticated/admin/cuentas'
+      path: '/cuentas'
+      fullPath: '/admin/cuentas'
+      preLoaderRoute: typeof AuthenticatedAdminCuentasRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminCuentasRoute: typeof AuthenticatedAdminCuentasRoute
   AuthenticatedAdminUsuariosRoute: typeof AuthenticatedAdminUsuariosRoute
   AuthenticatedAdminVuelosRoute: typeof AuthenticatedAdminVuelosRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminCuentasRoute: AuthenticatedAdminCuentasRoute,
   AuthenticatedAdminUsuariosRoute: AuthenticatedAdminUsuariosRoute,
   AuthenticatedAdminVuelosRoute: AuthenticatedAdminVuelosRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
