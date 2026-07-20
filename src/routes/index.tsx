@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Plane, ShieldCheck, Sparkles, Globe2 } from "lucide-react";
+import { EarthScene } from "@/components/EarthScene";
 
 export const Route = createFileRoute("/")({
   head: () => ({

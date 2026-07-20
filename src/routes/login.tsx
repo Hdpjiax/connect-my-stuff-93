@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { ArrowLeft, Lock, Mail, Plane } from "lucide-react";
+import { EarthScene } from "@/components/EarthScene";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 
@@ -188,26 +189,11 @@ function LoginPage() {
 
 function LoginScene3D() {
   return (
-    <div className="relative hidden h-[520px] scene-3d lg:block" aria-hidden>
-      <div className="relative h-full w-full">
-        {/* Contrail orbit */}
-        <div className="contrail absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2" />
-        {/* Earth */}
-        <div className="absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2">
-          <span className="earth-atmosphere" />
-          <div className="earth h-full w-full" />
-        </div>
-        {/* Orbiting plane */}
-        <div className="absolute left-1/2 top-1/2 anim-orbit" style={{ ["--orbit-r" as string]: "210px" }}>
-          <div className="-translate-x-1/2 -translate-y-1/2">
-            <div className="rounded-full bg-background/80 p-2 shadow-lg backdrop-blur">
-              <Plane className="h-6 w-6 -rotate-45 text-foreground" />
-            </div>
-          </div>
-        </div>
-        <div className="absolute left-1/2 top-[86%] h-6 w-64 -translate-x-1/2 rounded-full bg-foreground/20 blur-2xl" />
-      </div>
-    </div>
+    <EarthScene
+      size={320}
+      orbit={210}
+      className="hidden h-[520px] lg:block"
+    />
   );
 }
 
