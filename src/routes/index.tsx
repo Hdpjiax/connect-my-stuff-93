@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Plane, ShieldCheck, Sparkles, Globe2 } from "lucide-react";
+import { ArrowUpRight, Plane, ShieldCheck, Sparkles, Globe2, Compass, Ticket } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -59,31 +59,123 @@ function SiteHeader() {
 function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border/60">
-      <div className="mx-auto max-w-4xl px-6 py-24 text-center lg:py-32">
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-          Edición 2026 · México
+      {/* 3D perspective floor */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 scene-3d">
+        <div className="absolute inset-x-0 bottom-0 h-[420px] tf-3d" style={{ transform: "rotateX(62deg) translateZ(-40px)" }}>
+          <div className="h-full w-full grid-floor" />
         </div>
-        <h1 className="font-display text-[clamp(2.75rem,8vw,6rem)] font-semibold leading-[0.95] tracking-[-0.03em]">
-          Vuelos con estilo,
-          <br />
-          <span className="italic text-muted-foreground">sin fricción.</span>
-        </h1>
-        <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-muted-foreground">
-          Una plataforma editorial para cotizar, reservar y dar seguimiento a tus vuelos.
-          Ingresa con tu cuenta para acceder a tu panel personal.
-        </p>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition hover:opacity-90"
-          >
-            Iniciar sesión
-            <ArrowUpRight className="h-4 w-4" />
-          </Link>
+        <div className="absolute -top-24 -right-20 h-72 w-72 rounded-full bg-[oklch(0.62_0.14_40/.12)] blur-3xl anim-drift" />
+        <div className="absolute top-24 -left-24 h-72 w-72 rounded-full bg-[oklch(0.55_0.10_240/.10)] blur-3xl anim-drift" style={{ animationDelay: "-3s" }} />
+      </div>
+
+      <div className="relative mx-auto grid max-w-7xl gap-14 px-6 py-20 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:py-28">
+        <div className="max-w-xl">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1 text-xs uppercase tracking-[0.18em] text-muted-foreground backdrop-blur">
+            <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-accent)]" />
+            Edición 2026 · México
+          </div>
+          <h1 className="font-display text-[clamp(2.5rem,7vw,5.5rem)] font-semibold leading-[0.95] tracking-[-0.03em]">
+            Vuelos con estilo,
+            <br />
+            <span className="italic text-muted-foreground">sin fricción.</span>
+          </h1>
+          <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
+            Una plataforma editorial para cotizar, reservar y dar seguimiento a tus vuelos.
+            Ingresa con tu cuenta para acceder a tu panel personal.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              to="/login"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-foreground px-7 text-sm font-medium text-background transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+            >
+              Iniciar sesión
+              <ArrowUpRight className="h-4 w-4" aria-hidden />
+            </Link>
+            <a
+              href="#ventajas"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-background/70 px-6 text-sm font-medium text-foreground backdrop-blur transition hover:border-foreground"
+            >
+              Conocer más
+            </a>
+          </div>
         </div>
+
+        {/* 3D scene */}
+        <HeroScene3D />
       </div>
     </section>
+  );
+}
+
+function HeroScene3D() {
+  return (
+    <div className="relative mx-auto h-[420px] w-full max-w-[520px] scene-3d sm:h-[480px]" aria-hidden>
+      <div className="absolute inset-0 tf-3d anim-tilt">
+        {/* Orbit ring */}
+        <div className="absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-border/70 tf-3d anim-spin-slow" style={{ transform: "translate(-50%,-50%) rotateX(72deg)" }}>
+          <span className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-foreground" />
+          <span className="absolute top-1/2 -right-1.5 h-2 w-2 -translate-y-1/2 rounded-full bg-[color:var(--color-accent)]" />
+          <span className="absolute -bottom-1 left-1/4 h-2 w-2 rounded-full bg-muted-foreground" />
+        </div>
+
+        {/* Boarding pass card */}
+        <div
+          className="absolute left-1/2 top-1/2 w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border card-3d p-5 anim-float-plane"
+          style={{ transform: "translate(-50%,-50%) rotateX(6deg) rotateY(-14deg)" }}
+        >
+          <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+            <span>Boarding · 06A</span>
+            <span>VDK · 2026</span>
+          </div>
+          <div className="mt-4 flex items-end justify-between gap-2">
+            <div>
+              <p className="font-display text-3xl font-semibold leading-none">MEX</p>
+              <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Ciudad de México</p>
+            </div>
+            <div className="flex-1 px-2">
+              <div className="relative h-6">
+                <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" />
+                <Plane className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 -rotate-45 text-foreground" />
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="font-display text-3xl font-semibold leading-none">CUN</p>
+              <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Cancún</p>
+            </div>
+          </div>
+          <div className="mt-5 grid grid-cols-3 gap-3 border-t border-border pt-4 text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+            <div><p>Vuelo</p><p className="mt-1 font-display text-sm text-foreground normal-case tracking-normal">VDK 204</p></div>
+            <div><p>Puerta</p><p className="mt-1 font-display text-sm text-foreground normal-case tracking-normal">B14</p></div>
+            <div><p>Hora</p><p className="mt-1 font-display text-sm text-foreground normal-case tracking-normal">07:40</p></div>
+          </div>
+        </div>
+
+        {/* Floating chip: compass */}
+        <div
+          className="absolute left-4 top-8 rounded-2xl border border-border card-3d px-4 py-3 anim-drift"
+          style={{ transform: "translateZ(60px) rotateY(-12deg)" }}
+        >
+          <div className="flex items-center gap-2">
+            <Compass className="h-4 w-4" />
+            <span className="text-xs font-medium">NE · 04°</span>
+          </div>
+        </div>
+
+        {/* Floating chip: ticket */}
+        <div
+          className="absolute bottom-6 right-4 rounded-2xl border border-border card-3d px-4 py-3 anim-drift"
+          style={{ transform: "translateZ(80px) rotateY(-16deg)", animationDelay: "-2s" }}
+        >
+          <div className="flex items-center gap-2">
+            <Ticket className="h-4 w-4 text-[color:var(--color-accent)]" />
+            <span className="text-xs font-medium">2 pax · Directo</span>
+          </div>
+        </div>
+
+        {/* Ground shadow */}
+        <div className="absolute left-1/2 top-[78%] h-6 w-64 -translate-x-1/2 rounded-full bg-foreground/20 blur-2xl" />
+      </div>
+    </div>
   );
 }
 
