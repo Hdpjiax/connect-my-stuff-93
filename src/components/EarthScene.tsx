@@ -105,66 +105,139 @@ export function EarthScene({ size = 320, orbit = 210, className = "" }: Props) {
 }
 
 function PlaneMark() {
-  // Detailed top-down airliner silhouette
+  // Photorealistic top-down airliner
   return (
     <svg
-      viewBox="0 0 64 64"
-      className="h-9 w-9 drop-shadow-[0_6px_10px_rgba(15,20,35,0.45)]"
+      viewBox="0 0 120 120"
+      className="h-12 w-12 drop-shadow-[0_10px_16px_rgba(10,18,40,0.55)]"
       aria-hidden
     >
       <defs>
-        <linearGradient id="planeBody" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="oklch(0.98 0 0)" />
-          <stop offset="55%" stopColor="oklch(0.86 0.005 250)" />
-          <stop offset="100%" stopColor="oklch(0.62 0.01 250)" />
+        {/* Fuselage cylindrical shading */}
+        <linearGradient id="fuselage" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#6a7183" />
+          <stop offset="18%" stopColor="#c8cddb" />
+          <stop offset="42%" stopColor="#ffffff" />
+          <stop offset="58%" stopColor="#ffffff" />
+          <stop offset="82%" stopColor="#b7bccb" />
+          <stop offset="100%" stopColor="#5b6274" />
         </linearGradient>
-        <linearGradient id="planeWing" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="oklch(0.92 0.005 250)" />
-          <stop offset="100%" stopColor="oklch(0.55 0.02 250)" />
+        {/* Belly / underside darker band */}
+        <linearGradient id="belly" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#1f2a44" stopOpacity="0" />
+          <stop offset="70%" stopColor="#1f2a44" stopOpacity="0" />
+          <stop offset="100%" stopColor="#0f172a" stopOpacity="0.45" />
+        </linearGradient>
+        {/* Wing airfoil shading */}
+        <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#eef1f7" />
+          <stop offset="45%" stopColor="#c3c9d8" />
+          <stop offset="100%" stopColor="#6a7285" />
+        </linearGradient>
+        <linearGradient id="wingBack" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stopColor="#eef1f7" />
+          <stop offset="45%" stopColor="#c3c9d8" />
+          <stop offset="100%" stopColor="#6a7285" />
+        </linearGradient>
+        {/* Cockpit glass */}
+        <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#9ec1ff" />
+          <stop offset="60%" stopColor="#2b3a63" />
+          <stop offset="100%" stopColor="#0a1128" />
+        </linearGradient>
+        {/* Engine metallic */}
+        <radialGradient id="engine" cx="0.5" cy="0.4" r="0.6">
+          <stop offset="0%" stopColor="#dfe4ee" />
+          <stop offset="55%" stopColor="#5a6273" />
+          <stop offset="100%" stopColor="#111827" />
+        </radialGradient>
+        {/* Body highlight streak */}
+        <linearGradient id="hiLite" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
+          <stop offset="50%" stopColor="#ffffff" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
       </defs>
-      {/* Fuselage */}
-      <path
-        d="M32 3 C34.4 3 36 6 36.4 12 L37 30 L37 44 L34 58 L32 62 L30 58 L27 44 L27 30 L27.6 12 C28 6 29.6 3 32 3 Z"
-        fill="url(#planeBody)"
-        stroke="oklch(0.25 0.01 250)"
-        strokeWidth="0.6"
-      />
+
+      {/* Ground shadow */}
+      <ellipse cx="60" cy="112" rx="26" ry="3" fill="#0b1220" opacity="0.35" />
+
+      {/* Rear stabilizers (behind fuselage) */}
+      <path d="M60 96 L40 108 L46 110 L60 104 Z" fill="url(#wingBack)" stroke="#2a3244" strokeWidth="0.5" />
+      <path d="M60 96 L80 108 L74 110 L60 104 Z" fill="url(#wingBack)" stroke="#2a3244" strokeWidth="0.5" />
+
       {/* Main wings */}
       <path
-        d="M4 34 L27 28 L27 36 L6 42 Z"
-        fill="url(#planeWing)"
-        stroke="oklch(0.25 0.01 250)"
+        d="M60 52 L8 74 L14 80 L60 66 Z"
+        fill="url(#wing)"
+        stroke="#2a3244"
         strokeWidth="0.6"
       />
       <path
-        d="M60 34 L37 28 L37 36 L58 42 Z"
-        fill="url(#planeWing)"
-        stroke="oklch(0.25 0.01 250)"
+        d="M60 52 L112 74 L106 80 L60 66 Z"
+        fill="url(#wing)"
+        stroke="#2a3244"
         strokeWidth="0.6"
       />
-      {/* Tail wings */}
+      {/* Wing highlights */}
+      <path d="M18 74 L58 60 L58 62 L20 76 Z" fill="#ffffff" opacity="0.35" />
+      <path d="M102 74 L62 60 L62 62 L100 76 Z" fill="#ffffff" opacity="0.35" />
+
+      {/* Engines under wings */}
+      <ellipse cx="34" cy="72" rx="4.5" ry="7" fill="url(#engine)" stroke="#0b1220" strokeWidth="0.5" />
+      <ellipse cx="86" cy="72" rx="4.5" ry="7" fill="url(#engine)" stroke="#0b1220" strokeWidth="0.5" />
+      <ellipse cx="34" cy="66" rx="2.6" ry="1.6" fill="#0b1220" />
+      <ellipse cx="86" cy="66" rx="2.6" ry="1.6" fill="#0b1220" />
+
+      {/* Fuselage */}
       <path
-        d="M20 52 L27 47 L27 52 L22 56 Z"
-        fill="url(#planeWing)"
-        stroke="oklch(0.25 0.01 250)"
+        d="M60 8
+           C 66 8 69 14 70 24
+           L 71 60
+           L 71 88
+           L 66 104
+           L 60 112
+           L 54 104
+           L 49 88
+           L 49 60
+           L 50 24
+           C 51 14 54 8 60 8 Z"
+        fill="url(#fuselage)"
+        stroke="#2a3244"
+        strokeWidth="0.7"
+      />
+      {/* Belly shadow overlay */}
+      <path
+        d="M60 8
+           C 66 8 69 14 70 24
+           L 71 60 L 71 88 L 66 104 L 60 112 L 54 104 L 49 88 L 49 60 L 50 24
+           C 51 14 54 8 60 8 Z"
+        fill="url(#belly)"
+      />
+      {/* Long metallic highlight */}
+      <path d="M58 14 L58 100 L62 100 L62 14 Z" fill="url(#hiLite)" opacity="0.55" />
+
+      {/* Window row */}
+      <g fill="#0b1a36" opacity="0.85">
+        {Array.from({ length: 14 }).map((_, i) => (
+          <rect key={i} x="58.4" y={28 + i * 4} width="3.2" height="1.6" rx="0.6" />
+        ))}
+      </g>
+
+      {/* Cockpit glass */}
+      <path
+        d="M60 9 C 64 9 66 13 66 18 L 54 18 C 54 13 56 9 60 9 Z"
+        fill="url(#glass)"
+        stroke="#0b1220"
         strokeWidth="0.5"
       />
-      <path
-        d="M44 52 L37 47 L37 52 L42 56 Z"
-        fill="url(#planeWing)"
-        stroke="oklch(0.25 0.01 250)"
-        strokeWidth="0.5"
-      />
-      {/* Cockpit window */}
-      <path
-        d="M32 6 C33.4 6 34 8 34 10 L30 10 C30 8 30.6 6 32 6 Z"
-        fill="oklch(0.35 0.03 240)"
-        opacity="0.85"
-      />
-      {/* Engine nacelles */}
-      <ellipse cx="18" cy="36" rx="2" ry="3.4" fill="oklch(0.3 0.01 250)" />
-      <ellipse cx="46" cy="36" rx="2" ry="3.4" fill="oklch(0.3 0.01 250)" />
+      <path d="M57 12 L63 12" stroke="#9ec1ff" strokeWidth="0.5" opacity="0.7" />
+
+      {/* Nose highlight */}
+      <ellipse cx="60" cy="10" rx="2.2" ry="1" fill="#ffffff" opacity="0.7" />
+
+      {/* Tail fin (vertical stabilizer seen from top) */}
+      <path d="M58.5 100 L60 88 L61.5 100 Z" fill="#2a3244" />
     </svg>
   );
 }
